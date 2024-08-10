@@ -100,7 +100,7 @@ function Home() {
                 <div className="avatar">
                   <div className="w-32 md:w-40 rounded-full mb-6">
                     <img
-                      src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                      src="https://www.pngitem.com/pimgs/m/576-5768840_cartoon-man-png-avatar-transparent-png.png"
                       alt="Profile"
                     />
                   </div>
@@ -112,7 +112,7 @@ function Home() {
                   <BiLogoTelegram className="text-xl md:text-2xl" /> Telegram
                 </button>
                 <button className="btntw flex items-center justify-center gap-3 font-bold text-lg md:text-xl mb-4 py-2 px-4 rounded-lg">
-                  <SiWhatsapp className="text-xl md:text-2xl" /> WhatsApp
+                  <SiWhatsapp className="text-xl md:text-2xl" /> Whatsapp
                 </button>
               </div>
             </div>
