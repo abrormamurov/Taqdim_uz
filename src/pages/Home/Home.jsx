@@ -112,7 +112,7 @@ function Home() {
                   <BiLogoTelegram className="text-xl md:text-2xl" /> Telegram
                 </button>
                 <button className="btntw flex items-center justify-center gap-3 font-bold text-lg md:text-xl mb-4 py-2 px-4 rounded-lg">
-                  <SiWhatsapp className="text-xl md:text-2xl" /> Whatsapp
+                  <SiWhatsapp className="text-xl md:text-2xl" /> WhatsApp
                 </button>
               </div>
             </div>

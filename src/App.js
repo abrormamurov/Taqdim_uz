@@ -42,7 +42,7 @@ function App() {
         <Routes>
           {/* Define routes that should not show the sidebar */}
           <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/create" element={<Create />} />
           {/* Other routes with Sidebar */}
