@@ -1,0 +1,169 @@
+/* General Styles */
+.body1 {
+  background: #141414;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inFormBackground {
+  position: relative;
+  width: 430px;
+  height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inCircle {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  z-index: 1; /* Ensure circles are in the background */
+}
+
+.inCircle2 {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  z-index: 1; /* Ensure circles are in the background */
+}
+
+.inCircle:first-child {
+  background: linear-gradient(
+    to right top,
+    #0b65ed,
+    #009dff,
+    #00c3e2,
+    #00de86,
+    #a8eb12
+  );
+  left: -80px;
+  top: -80px;
+}
+
+.inCircle:last-child {
+  background: linear-gradient(#f00, #f0f);
+  right: 500px; /* Adjusted to stay within view */
+  bottom: -180px; /* Adjusted to stay within view */
+  transform: rotate(45deg);
+}
+
+.inLoginForm1 {
+  width: 400px;
+  height: 660px;
+  background-color: rgba(255, 255, 255, 0.13);
+  position: relative;
+  z-index: 10; /* Ensure form is in the foreground */
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+  padding: 50px 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inLoginForm1 * {
+  font-family: "Poppins", sans-serif;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  outline: none;
+  border: none;
+}
+
+.inTitle {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 42px;
+  text-align: center;
+}
+
+.inInputGroup {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.inInputGroup label {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.inInputGroup input {
+  width: 100%;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.07);
+  border-radius: 3px;
+  padding: 0 10px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+::placeholder {
+  color: #e5e5e5;
+}
+
+.inSubmitForm {
+  width: 100%;
+  margin-top: 50px;
+  background-color: #ffffff;
+  color: #080710;
+  padding: 15px 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.inSocial {
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.inSocial div {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.27);
+  color: #eaf0fb;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.inSocial div:hover {
+  background-color: rgba(255, 255, 255, 0.47);
+}
+
+.inSocial .inFb {
+  margin-left: 25px;
+}
+
+.inSocial .inTw {
+  margin-left: 25px;
+}
+
+.login-link {
+  margin-top: 10px;
+}
+
+.Signup {
+  color: #0b65ed;
+}
+.taqdim {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  margin-bottom: 0px;
+}

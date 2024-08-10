@@ -1,0 +1,94 @@
+.edit-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: Raleway, sans-serif;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 1.5rem; /* Form gruppalar orasidagi bo'shliq */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: normal;
+  color: #7373aa;
+}
+.c-f {
+  font-weight: normal;
+  color: #7373aa;
+}
+.form-group input,
+.form-group textarea {
+  width: 420px; /* O'lchamlar */
+  padding: 10px;
+  border: 1px solid #dedeff;
+  border-radius: 0.375rem;
+  border-radius: 4px;
+  color: #7373aa;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+  height: 42px; /* Inputlarni 42px balandlikka o'rnatish */
+}
+
+textarea {
+  height: 100px; /* Textarea'larni 100px balandlikka o'rnatish */
+}
+
+button {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 0.8em;
+  min-height: 42px;
+  padding: 0 28px;
+  background: #7979ff;
+  border: 0;
+  border-radius: 6.25rem;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 1.875rem;
+  text-align: center;
+  transition: 0.2s;
+  -moz-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  width: -webkit-fit-content;
+}
+
+.buttons {
+  gap: 213px;
+  display: flex;
+}
+button:hover {
+  background-color: #0056b3;
+}
+
+.profile-image-preview {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-image-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #007bff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

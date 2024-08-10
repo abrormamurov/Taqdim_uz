@@ -1,0 +1,397 @@
+.preview-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.preview-container p {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.preview-container strong {
+  color: #333;
+  font-weight: 600;
+}
+
+.preview-container p {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.preview-container p:last-of-type {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .preview-container {
+    padding: 15px;
+  }
+
+  .preview-container p {
+    font-size: 16px;
+  }
+}
+p {
+  color: #333;
+}
+.profile-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+
+  border-radius: 10px;
+
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 50px;
+}
+
+.profile-avatar {
+  /* border-radius: 50%; */
+  margin-bottom: 10px;
+  /* Placeholder styling for user avatar */
+}
+
+.profile-info {
+  text-align: center;
+}
+img {
+  max-width: 200px;
+}
+
+.profile-username {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.profile-fullname,
+.profile-location,
+.profile-telephone,
+.profile-about {
+  font-size: 1.2em;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.profile-qr {
+  margin-top: 20px;
+}
+
+.profile-qr img {
+  width: 150px;
+  height: 150px;
+  border: 2px solid #333;
+  border-radius: 10px;
+}
+
+.loading,
+.auth-error {
+  text-align: center;
+  font-size: 1.2em;
+  color: #ff0000;
+}
+.avatar-image {
+  width: 150px; /* O'lchamini o'zgartirishingiz mumkin */
+  height: 100px;
+  /* border-radius: 50%; */
+  object-fit: cover;
+  box-shadow: 5px 5px 5px rgb(229, 229, 229);
+}
+
+.avatar-placeholder {
+  width: 100px;
+  height: 100px;
+  /* border-radius: 50%; */
+  background-color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #666;
+}
+.profile-preview {
+  padding: 20px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-avatar {
+  margin-right: 100px;
+  width: 100px;
+  height: 250px;
+}
+
+.avatar-image {
+  width: 300px;
+  height: 200px;
+  border-radius: 50%;
+  margin-top: 50px;
+  margin-right: 30px;
+}
+
+.avatar-placeholder {
+  width: 100px;
+  height: 100px;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-info h1 {
+  margin: 0;
+}
+
+.profile-info p {
+  margin: 5px 0;
+}
+
+.profile-sites {
+  margin-top: 20px;
+}
+
+.sites-heading {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.sites-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.site-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* .site-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  border-radius: 50%;
+  display: inline-block;
+} */
+
+.site-name {
+  font-weight: bold;
+}
+
+.site-item.Instagram .site-icon {
+  background-color: #c32aa3;
+  border-radius: 0.9375rem;
+  width: 600px;
+  height: 70px;
+  color: #f4f4f4;
+  align-items: center;
+  box-shadow: 0 7px 10px rgba(50, 50, 93, 0.1), 0 3px 4px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  display: flex;
+  overflow: hidden;
+  transition: 0.2s;
+  -moz-user-select: none;
+  user-select: none;
+  justify-content: center;
+  font-size: bold;
+  font-family: Georgia, "Times New Roman", Times, serif;
+
+  font-size: 28px;
+  font-family: "Gilroy", sans-serif;
+  font-weight: Black;
+}
+
+.site-item.Telegram .site-icon {
+  background-color: blue;
+  border-radius: 0.9375rem;
+  width: 600px;
+  height: 70px;
+  color: #f4f4f4;
+  align-items: center;
+  box-shadow: 0 7px 10px rgba(50, 50, 93, 0.1), 0 3px 4px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  display: flex;
+  overflow: hidden;
+  transition: 0.2s;
+  -moz-user-select: none;
+  user-select: none;
+  justify-content: center;
+  font-size: bold;
+  font-family: Georgia, "Times New Roman", Times, serif;
+
+  font-size: 28px;
+  font-family: "Gilroy", sans-serif;
+  font-weight: Black;
+}
+
+.site-item.Whatsapp .site-icon {
+  background-color: green;
+  border-radius: 0.9375rem;
+  width: 600px;
+  height: 70px;
+  color: #f4f4f4;
+  align-items: center;
+  box-shadow: 0 7px 10px rgba(50, 50, 93, 0.1), 0 3px 4px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  display: flex;
+  overflow: hidden;
+  transition: 0.2s;
+  -moz-user-select: none;
+  user-select: none;
+  justify-content: center;
+  font-size: bold;
+  font-family: Georgia, "Times New Roman", Times, serif;
+
+  font-size: 28px;
+  font-family: "Gilroy", sans-serif;
+  font-weight: Black;
+}
+
+.site-item.YouTube .site-icon {
+  background-color: red;
+  border-radius: 0.9375rem;
+  width: 600px;
+  height: 70px;
+  color: #f4f4f4;
+  align-items: center;
+  box-shadow: 0 7px 10px rgba(50, 50, 93, 0.1), 0 3px 4px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  display: flex;
+  overflow: hidden;
+  transition: 0.2s;
+  -moz-user-select: none;
+  user-select: none;
+  justify-content: center;
+  font-size: bold;
+  font-family: Georgia, "Times New Roman", Times, serif;
+
+  font-size: 28px;
+  font-family: "Gilroy", sans-serif;
+  font-weight: Black;
+}
+
+.site-item.Facebook .site-icon {
+  background-color: #3b5998;
+  border-radius: 0.9375rem;
+  width: 600px;
+  height: 70px;
+  color: #f4f4f4;
+  align-items: center;
+  box-shadow: 0 7px 10px rgba(50, 50, 93, 0.1), 0 3px 4px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  display: flex;
+  overflow: hidden;
+  transition: 0.2s;
+  -moz-user-select: none;
+  user-select: none;
+  justify-content: center;
+  font-size: bold;
+  font-family: Georgia, "Times New Roman", Times, serif;
+
+  font-size: 28px;
+  font-family: "Gilroy", sans-serif;
+  font-weight: Black;
+}
+
+.qr-download {
+  margin-top: 10px;
+}
+
+.qr-download a {
+  display: block;
+  margin-top: 5px;
+}
+
+.qr-placeholder {
+  text-align: center;
+  color: #888;
+}
+.links {
+  width: 600px;
+  height: 70px;
+}
+.profile-location {
+  color: rgb(74, 74, 243);
+  font-size: medium;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  align-items: center;
+  border: 2px solid #7979ff;
+  border-radius: 1.5625rem;
+  color: #7979ff;
+  display: flex;
+  font-size: 1.1rem;
+  margin: 0.3125rem 0;
+  padding: 0.5rem 0.9375rem 0.5rem 0.625rem;
+  width: -moz-max-content;
+  width: max-content;
+  gap: 10px;
+  font-family: "Helvetica", sans-serif;
+  font-weight: 400;
+}
+.profile-telephone {
+  color: rgb(74, 74, 243);
+  text-decoration: none; /* Chizilmasin */
+  display: block; /* Butun uzunlikka to'ldirish */
+  margin-bottom: 10px; /* Quyida bo'sh joy */
+  font-family: "Helvetica", sans-serif;
+  font-weight: 400;
+}
+body {
+  background: #fff;
+}
+.profile-telephone:hover {
+  text-decoration: underline; /* Hover holatda chizish */
+  font-size: medium;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: "Helvetica", sans-serif;
+  font-weight: 400;
+}
+.profile-fullname {
+  color: #333; /* Matn rangi */
+  font-size: 1.2rem; /* Font o'lchami */
+  margin-bottom: 10px; /* Quyida bo'sh joy */
+  font-weight: bold; /* Matnni qalinlashtirish */
+  font-size: medium;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+.profile-username {
+  font-family: "Helvetica", sans-serif;
+  font-weight: Bold;
+}
+.profile-info {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+.profile-about {
+  font-family: "Helvetica", sans-serif;
+  font-weight: 400;
+}
+.helvetica {
+  font-family: "Helvetica", sans-serif;
+  font-weight: Black;
+}
