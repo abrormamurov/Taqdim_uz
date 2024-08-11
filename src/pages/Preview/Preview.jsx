@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { IoLocationSharp } from "react-icons/io5";
-import { BsFillTelephoneOutboundFill } from "react-icons/bs";
+import { BsFillTelephoneOutboundFill, BsTelephone } from "react-icons/bs";
 import {
   FaInstagram,
   FaTelegram,
@@ -89,7 +89,7 @@ function Preview({ setUsername }) {
             <BsFillTelephoneOutboundFill className="mr-2" />{" "}
             {userData?.telephone}
           </a>
-          <p className="text-lg text-gray-600 mt-2">About: {userData?.about}</p>
+          <p className="text-lg text-gray-600 mt-2"> {userData?.about}</p>
         </div>
       </div>
 
@@ -114,6 +114,9 @@ function Preview({ setUsername }) {
               case "Facebook":
                 Icon = FaFacebook;
                 break;
+              case "Telephone":
+                Icon = BsTelephone;
+                break;
               default:
                 Icon = FaGlobe; // Agar aniqlanmagan bo'lsa, umumiy veb-ikonka
             }
@@ -130,6 +133,8 @@ function Preview({ setUsername }) {
                     : site.icon === "Telegram"
                     ? "bg-blue-500 text-white"
                     : site.icon === "Whatsapp"
+                    ? "bg-green-500 text-white"
+                    : site.icon === "tel:"
                     ? "bg-green-500 text-white"
                     : site.icon === "YouTube"
                     ? "bg-red-600 text-white"

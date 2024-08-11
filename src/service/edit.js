@@ -38,13 +38,12 @@ const Profile = {
       });
       return response.data;
     } catch (error) {
-      console.error("Update Profile Error Response:", error.response?.data); // Backenddan qaytgan xatolikni chiqarish
+      console.error("Update Profile Error Response:", error.response?.data);
       throw new Error(
         error.response?.data?.detail || error.message || "Unknown error"
       );
     }
   },
-
   async createProfile(data) {
     try {
       const response = await api.post("/profile/create/", data, {
@@ -55,26 +54,25 @@ const Profile = {
       console.log("Request Headers:", response.data);
       return response.data;
     } catch (error) {
-      console.error("Create Profile Error:", error); // Log the error
+      console.error("Create Profile Error:", error);
       throw new Error(error.message || "Unknown error");
     }
   },
   async iconProfile(data) {
     try {
       const response = await api.get("/icons/", {
-        params: { url: data.url }, // URL manzilini yuboring
+        params: { url: data.url },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
       console.log("Icon response:", response.data);
-      return response.data; // SVG kodini va link turini qaytaradi
+      return response.data;
     } catch (error) {
-      console.error("Create Profile Error:", error); // Xatoni log qilish
+      console.error("Create Profile Error:", error);
       throw new Error(error.message || "Unknown error");
     }
   },
-
   async postPreview() {
     try {
       const response = await api.get("/profile/list/", {

@@ -1,5 +1,6 @@
+// IconSelector.jsx
 import React from "react";
-import { BsYoutube } from "react-icons/bs";
+import { BsTelephone, BsYoutube } from "react-icons/bs";
 import {
   FaInstagram,
   FaTwitter,
@@ -14,26 +15,35 @@ const iconMap = {
   Instagram: {
     icon: <FaInstagram size={24} color="#000" />,
     label: "Instagram",
-    label: "Instagram",
   },
-  Twitter: { icon: <FaTwitter size={24} color="#000" />, label: "Twitter" },
-  label: "Twitter",
-
+  Twitter: {
+    icon: <FaTwitter size={24} color="#000" />,
+    label: "Twitter",
+  },
   Telegram: {
     icon: <FaTelegramPlane size={24} color="#000" />,
     label: "Telegram",
   },
-  Whatsapp: { icon: <FaWhatsapp size={24} color="#000" />, label: "WhatsApp" },
-  label: "Whatsapp",
-
-  Facebook: { icon: <FaFacebookF size={24} color="#000" />, label: "Facebook" },
-  label: "Facebook",
-
-  Web: { icon: <FaGlobe size={24} color="#000" />, label: "Website" },
-  label: "Web",
-
-  YouTube: { icon: <BsYoutube size={24} color="#000" />, label: "YouTube" },
-  label: "YouTube",
+  Whatsapp: {
+    icon: <FaWhatsapp size={24} color="#000" />,
+    label: "WhatsApp",
+  },
+  Facebook: {
+    icon: <FaFacebookF size={24} color="#000" />,
+    label: "Facebook",
+  },
+  Web: {
+    icon: <FaGlobe size={24} color="#000" />,
+    label: "Website",
+  },
+  YouTube: {
+    icon: <BsYoutube size={24} color="#000" />,
+    label: "YouTube",
+  },
+  PhoneNumber: {
+    icon: <BsTelephone size={24} color="#000" />,
+    label: "tel:",
+  },
 };
 
 const IconSelector = ({ type }) => {
