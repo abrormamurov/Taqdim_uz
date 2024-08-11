@@ -12,7 +12,7 @@ import {
   FaGlobe,
 } from "react-icons/fa";
 
-function Preview({ setUsername }) {
+function UserPreview({ setUsername }) {
   const { username } = useParams();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -166,4 +166,4 @@ function Preview({ setUsername }) {
   );
 }
 
-export default Preview;
+export default UserPreview;

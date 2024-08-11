@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Navbar from "./components/Navbar/Navbar";
 import Edit from "./pages/Edit/Edit";
@@ -10,6 +10,7 @@ import Signup from "./auth/Signup/Signup";
 import MyAccount from "./components/MyAccount/MyAccount";
 import Create from "./components/Create/Create";
 import Home from "./pages/Home/Home";
+import UserPreview from "./components/UserPage/UserPreview/UserPreview";
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(() => {
@@ -22,7 +23,7 @@ function App() {
     return savedIsDarkMode !== null ? JSON.parse(savedIsDarkMode) : false;
   });
 
-  const [username, setUsername] = useState(""); // Add state for username
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     localStorage.setItem("sidebarOpen", JSON.stringify(sidebarOpen));
@@ -40,12 +41,16 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Routes>
-          {/* Define routes that should not show the sidebar */}
+          {/* Routes without Sidebar and Navbar */}
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/" element={<Home />} />
           <Route path="/create" element={<Create />} />
-          {/* Other routes with Sidebar */}
+
+          {/* Dynamic UserPreview route */}
+          <Route path="/:username" element={<UserPreview />} />
+
+          {/* Routes with Sidebar and Navbar */}
           <Route
             path="*"
             element={
@@ -55,7 +60,7 @@ function App() {
                   <Navbar
                     toggleDarkMode={toggleDarkMode}
                     handleOpen={handleOpen}
-                    username={username} // Pass username to Navbar
+                    username={username}
                   />
                   <Routes>
                     <Route path="/" element={<Preview />} />
