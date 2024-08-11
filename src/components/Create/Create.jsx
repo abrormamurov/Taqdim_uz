@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Profile from "../../service/edit";
 import IconSelector from "../IconMap/IconSelector"; // Import IconSelector
+import "./Create.css"; // Import the CSS file for styling
 
 function Create() {
   const [formData, setFormData] = useState({
@@ -184,14 +185,27 @@ function Create() {
           <label htmlFor="profile_image" className="mb-2">
             Profile Image
           </label>
-          <input
-            type="file"
-            id="profile_image"
-            name="profile_image"
-            accept="image/*"
-            onChange={handleChange}
-            className="w-full max-w-[600px] p-2 text-sm border rounded"
-          />
+          <div className="profile-image-preview mb-4 relative">
+            {formData.profile_image ? (
+              <img
+                src={URL.createObjectURL(formData.profile_image)}
+                alt="Profile Preview"
+                className="w-32 h-32 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-32 h-32 rounded-full border border-gray-300 flex items-center justify-center text-gray-500">
+                <span>No Image</span>
+              </div>
+            )}
+            <input
+              type="file"
+              id="profile_image"
+              name="profile_image"
+              accept="image/*"
+              onChange={handleChange}
+              className="absolute inset-0 opacity-0 cursor-pointer"
+            />
+          </div>
         </div>
 
         <div className="form-group flex flex-col mb-4">
