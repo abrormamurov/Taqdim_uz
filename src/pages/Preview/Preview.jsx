@@ -27,7 +27,7 @@ function Preview({ setUsername }) {
         }
 
         const response = await axios.get(
-          `https://vildan.pythonanywhere.com/profile/${username}`,
+          `http://64.225.8.227:9999/${username}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

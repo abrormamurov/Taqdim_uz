@@ -9,7 +9,7 @@ import {
 import { refreshToken } from "./auth";
 
 const api = axios.create({
-  baseURL: "https://vildan.pythonanywhere.com/",
+  baseURL: "http://64.225.8.227:9999/",
 });
 
 api.interceptors.request.use(

@@ -35,7 +35,7 @@ function Sidebar({ sidebarOpen }) {
         <span className="text-gradient">TAQDIM.UZ</span>
       </NavLink>
       <ul className="side-menu top">
-        <NavLink to={"/"}>
+        <NavLink>
           <li>
             <label>
               <i className="bx bxs-dashboard"></i>
