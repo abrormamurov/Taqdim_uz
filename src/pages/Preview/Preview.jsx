@@ -38,7 +38,9 @@ function Preview({ setUsername }) {
         setUserData(response.data);
         if (setUsername) setUsername(username); // Update username state
       } catch (error) {
-        if (error.response && error.response.status === 401) {
+        if (error.response && error.response.status === 404) {
+          setAuthError("No Profile matches the given query.");
+        } else if (error.response && error.response.status === 401) {
           setAuthError("Unauthorized access. Please log in again.");
         } else {
           console.error("Error fetching user data:", error);
@@ -50,6 +52,14 @@ function Preview({ setUsername }) {
 
     fetchUserData();
   }, [username]);
+
+  if (loading) {
+    return <div className="text-center text-xl text-red-500">Loading...</div>;
+  }
+
+  if (authError) {
+    return <div className="text-center text-xl text-red-500">{authError}</div>;
+  }
 
   if (loading) {
     return <div className="text-center text-xl text-red-500">Loading...</div>;

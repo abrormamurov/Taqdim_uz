@@ -15,9 +15,9 @@ const Login = () => {
   useEffect(() => {
     if (user) {
       console.log("User found, navigating to /preview:", user);
-      navigate("/preview");
+      navigate(`/preview/${username}`);
     }
-  }, [user, navigate]);
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,7 +27,7 @@ const Login = () => {
     if (loginUser.fulfilled.match(result)) {
       const { access, user } = result.payload;
       localStorage.setItem("access_token", access);
-      navigate("/preview", { state: user });
+      navigate(`/preview/${username}`, { state: user });
     } else {
       console.error("Login failed:", result.payload);
     }

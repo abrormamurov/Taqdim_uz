@@ -1,5 +1,10 @@
 import api from "./api";
-import { saveAccessToken, saveRefreshToken, clearTokens } from "./tokenService";
+import {
+  saveAccessToken,
+  getRefreshToken,
+  saveRefreshToken,
+  clearTokens,
+} from "./tokenService";
 
 // api.js
 export const signup = async (username, password) => {
@@ -44,12 +49,44 @@ export const refreshToken = async (refreshToken) => {
       refresh: refreshToken,
     });
     const { access } = response.data;
-    localStorage.setItem("access_token", access);
+    saveAccessToken(access);
     return response.data;
   } catch (error) {
-    throw error.response || new Error("Unknown error");
+    console.error(
+      "Token yangilashda xatolik:",
+      error.response ? error.response.data : error.message
+    );
+    clearTokens(); // Foydalanuvchini tizimdan chiqarish
+    throw error;
   }
 };
+
+api.interceptors.response.use(
+  // 'pi' o'rniga 'api' ishlatish
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+      try {
+        const newTokens = await refreshToken(getRefreshToken());
+        saveAccessToken(newTokens.access);
+        originalRequest.headers["Authorization"] = `Bearer ${newTokens.access}`;
+        return api(originalRequest); // Asl so'rovni qayta yuborish
+      } catch (refreshError) {
+        clearTokens(); // Tokenlarni tozalash va foydalanuvchini tizimdan chiqarish
+        return Promise.reject(refreshError);
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 export const logout = async () => {
   try {

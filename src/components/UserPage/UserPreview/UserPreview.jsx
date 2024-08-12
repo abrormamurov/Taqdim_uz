@@ -39,7 +39,35 @@ function UserPreview({ setUsername }) {
         if (setUsername) setUsername(username); // Update username state
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          setAuthError("Unauthorized access. Please log in again.");
+          // Agar token muddati o'tgan bo'lsa, uni yangilashga harakat qiling
+          try {
+            const refreshToken = localStorage.getItem("refresh_token");
+            const refreshResponse = await axios.post(
+              "http://64.225.8.227:9999/token/refresh/",
+              { refresh: refreshToken }
+            );
+
+            const newAccessToken = refreshResponse.data.access;
+            localStorage.setItem("access_token", newAccessToken);
+
+            // Yangi token bilan so'rovni qayta yuborish
+            const retryResponse = await axios.get(
+              `http://64.225.8.227:9999/profile/${username}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${newAccessToken}`,
+                },
+              }
+            );
+
+            setUserData(retryResponse.data);
+            if (setUsername) setUsername(username);
+          } catch (refreshError) {
+            // Tokenni yangilash ham muvaffaqiyatsiz bo'lsa, foydalanuvchini tizimdan chiqarish
+            setAuthError("Unauthorized access. Please log in again.");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+          }
         } else if (error.response && error.response.status === 404) {
           setAuthError("User not found");
         } else {
