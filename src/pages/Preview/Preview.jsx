@@ -62,6 +62,19 @@ function Preview({ setUsername }) {
   return (
     <div className="p-5 max-w-4xl mx-auto  rounded-lg  mt-5">
       <div className="flex justify-center gap-10 flex-col md:flex-row items-center mb-5">
+        <div className="mb-4 md:mb-0">
+          {userData?.profile_image ? (
+            <img
+              src={userData.profile_image}
+              alt="Profile Avatar"
+              className="w-40 h-40 rounded-full object-cover shadow-lg"
+            />
+          ) : (
+            <div className="w-40 h-40 bg-gray-300 rounded-full flex items-center justify-center text-gray-700">
+              No Image
+            </div>
+          )}
+        </div>
         <div className="text-center md:text-left md:ml-6">
           <h1 className="text-3xl font-bold text-gray-800">
             {userData?.username}

@@ -45,7 +45,8 @@ export const refreshTokenThunk = createAsyncThunk(
 
     try {
       const response = await refreshToken(refreshTokenValue);
-      return response;
+      saveAccessToken(response.data.access);
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response ? error.response.data : error.message

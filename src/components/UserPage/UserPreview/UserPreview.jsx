@@ -40,6 +40,8 @@ function UserPreview({ setUsername }) {
       } catch (error) {
         if (error.response && error.response.status === 401) {
           setAuthError("Unauthorized access. Please log in again.");
+        } else if (error.response && error.response.status === 404) {
+          setAuthError("User not found");
         } else {
           console.error("Error fetching user data:", error);
         }
@@ -49,7 +51,7 @@ function UserPreview({ setUsername }) {
     };
 
     fetchUserData();
-  }, [username]);
+  }, [username, setUsername]);
 
   if (loading) {
     return <div className="text-center text-xl text-red-500">Loading...</div>;
@@ -60,8 +62,21 @@ function UserPreview({ setUsername }) {
   }
 
   return (
-    <div className="p-5 max-w-4xl mx-auto  rounded-lg  mt-5">
+    <div className="p-5 max-w-4xl mx-auto rounded-lg mt-5">
       <div className="flex justify-center gap-10 flex-col md:flex-row items-center mb-5">
+        <div className="mb-4 md:mb-0">
+          {userData?.profile_image ? (
+            <img
+              src={userData.profile_image}
+              alt="Profile Avatar"
+              className="w-40 h-40 rounded-full object-cover shadow-lg"
+            />
+          ) : (
+            <div className="w-40 h-40 bg-gray-300 rounded-full flex items-center justify-center text-gray-700">
+              No Image
+            </div>
+          )}
+        </div>
         <div className="text-center md:text-left md:ml-6">
           <h1 className="text-3xl font-bold text-gray-800">
             {userData?.username}
@@ -76,7 +91,7 @@ function UserPreview({ setUsername }) {
             <BsFillTelephoneOutboundFill className="mr-2" />{" "}
             {userData?.telephone}
           </a>
-          <p className="text-lg text-gray-600 mt-2"> {userData?.about}</p>
+          <p className="text-lg text-gray-600 mt-2">{userData?.about}</p>
         </div>
       </div>
 
@@ -121,7 +136,7 @@ function UserPreview({ setUsername }) {
                     ? "bg-blue-500 text-white"
                     : site.icon === "Whatsapp"
                     ? "bg-green-500 text-white"
-                    : site.icon === "tel:"
+                    : site.icon === "Telephone"
                     ? "bg-green-500 text-white"
                     : site.icon === "YouTube"
                     ? "bg-red-600 text-white"
