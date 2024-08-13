@@ -114,9 +114,39 @@ function Create() {
         <span className="text-gradient">TAQDIM.UZ</span>
       </NavLink>
       {loading && <p className="text-center">Loading...</p>}
-      {error && <p className="text-red-500 text-center">Error: {error}</p>}
+      {error && (
+        <p className="text-red-500 text-center text-bold text-xl">
+          Error: such a username exists
+        </p>
+      )}
       <form className="space-y-4" onSubmit={handleSubmit}>
         {/* Form Inputs */}
+        <div className="form-group flex flex-col mb-4">
+          <label htmlFor="profile_image" className="mb-2">
+            Profile Image
+          </label>
+          <div className="profile-image-preview mb-4 relative">
+            {formData.profile_image ? (
+              <img
+                src={URL.createObjectURL(formData.profile_image)}
+                alt="Profile Preview"
+                className="w-32 h-32 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-32 h-32 rounded-full border border-gray-300 flex items-center justify-center text-gray-500">
+                <span>No Image</span>
+              </div>
+            )}
+            <input
+              type="file"
+              id="profile_image"
+              name="profile_image"
+              accept="image/*"
+              onChange={handleChange}
+              className="absolute inset-0 opacity-0 cursor-pointer"
+            />
+          </div>
+        </div>
         <div className="form-group flex flex-col mb-4">
           <label htmlFor="username" className="mb-2">
             Username
@@ -180,32 +210,6 @@ function Create() {
             onChange={handleChange}
             className="w-full max-w-[600px] p-2 text-sm border rounded"
           />
-        </div>
-        <div className="form-group flex flex-col mb-4">
-          <label htmlFor="profile_image" className="mb-2">
-            Profile Image
-          </label>
-          <div className="profile-image-preview mb-4 relative">
-            {formData.profile_image ? (
-              <img
-                src={URL.createObjectURL(formData.profile_image)}
-                alt="Profile Preview"
-                className="w-32 h-32 rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-32 h-32 rounded-full border border-gray-300 flex items-center justify-center text-gray-500">
-                <span>No Image</span>
-              </div>
-            )}
-            <input
-              type="file"
-              id="profile_image"
-              name="profile_image"
-              accept="image/*"
-              onChange={handleChange}
-              className="absolute inset-0 opacity-0 cursor-pointer"
-            />
-          </div>
         </div>
 
         <div className="form-group flex flex-col mb-4">

@@ -12,15 +12,22 @@ const api = axios.create({
   baseURL: "http://64.225.8.227:9999/",
 });
 
-api.interceptors.request.use(
-  (config) => {
-    const token = getAccessToken();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const newTokens = await refreshToken(getRefreshToken());
+        saveAccessToken(newTokens.access);
+        originalRequest.headers["Authorization"] = `Bearer ${newTokens.access}`;
+        return api(originalRequest);
+      } catch (refreshError) {
+        clearTokens();
+        return Promise.reject(refreshError);
+      }
     }
-    return config;
-  },
-  (error) => {
     return Promise.reject(error);
   }
 );

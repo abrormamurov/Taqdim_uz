@@ -43,6 +43,7 @@ export const login = async (username, password) => {
 };
 
 // auth.js
+// Token yangilash
 export const refreshToken = async (refreshToken) => {
   try {
     const response = await api.post("/token/refresh/", {
@@ -56,7 +57,7 @@ export const refreshToken = async (refreshToken) => {
       "Token yangilashda xatolik:",
       error.response ? error.response.data : error.message
     );
-    clearTokens(); // Foydalanuvchini tizimdan chiqarish
+    clearTokens();
     throw error;
   }
 };

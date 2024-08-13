@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams, Link } from "react-router-dom"; // Import Link
 import axios from "axios";
 import { IoLocationSharp } from "react-icons/io5";
 import { BsFillTelephoneOutboundFill, BsTelephone } from "react-icons/bs";
@@ -82,7 +82,18 @@ function Preview({ setUsername }) {
   }
 
   if (authError) {
-    return <div className="text-center text-xl text-red-500">{authError}</div>;
+    return (
+      <div className="text-center text-xl text-red-500">
+        {authError}
+        {authError === "No Profile matches the given query." && (
+          <div className="mt-4">
+            <Link to="/create" className="text-blue-500 hover:underline">
+              Create a Profile
+            </Link>
+          </div>
+        )}
+      </div>
+    );
   }
 
   return (

@@ -30,7 +30,7 @@ function Sidebar({ sidebarOpen }) {
 
   return (
     <section id="sidebar" className={!sidebarOpen ? "" : "hide"}>
-      <NavLink to={"/"} className="brand">
+      <NavLink className="brand">
         <i className="bx "></i>
         <span className="text-gradient">TAQDIM.UZ</span>
       </NavLink>

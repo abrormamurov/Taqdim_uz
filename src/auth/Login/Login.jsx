@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../features/slice/AuthSlice";
 
@@ -9,21 +9,29 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { loading, error, user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    // URLdan email parametrini olish
+    const queryParams = new URLSearchParams(location.search);
+    const email = queryParams.get("email");
+    if (email) {
+      setUsername(email);
+    }
+  }, [location]);
 
   useEffect(() => {
     if (user) {
       console.log("User found, navigating to /preview:", user);
       navigate(`/preview/${username}`);
     }
-  }, [navigate]);
+  }, [navigate, user, username]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting login:", { username, password });
     const result = await dispatch(loginUser({ username, password }));
-
     if (loginUser.fulfilled.match(result)) {
       const { access, user } = result.payload;
       localStorage.setItem("access_token", access);
@@ -34,7 +42,6 @@ const Login = () => {
   };
 
   const renderError = (error) => {
-    console.log("Rendering error:", error);
     if (typeof error === "string") {
       return error;
     } else if (typeof error === "object" && error.detail) {
@@ -44,15 +51,11 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-gray-900 z-10   h-screen flex items-center justify-center">
+    <div className="bg-gray-900 z-10 h-screen flex items-center justify-center">
       <div className="relative w-full z-10 max-w-md bg-opacity-20 p-8 rounded-lg shadow-lg backdrop-blur-lg border border-gray-600">
-        {/* <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="w-48 h-48 rounded-full bg-gradient-to-br from-blue-500 to-green-400 absolute -top-16 -left-16 z-0"></div>
-          <div className="w-32 h-32 rounded-full bg-gradient-to-br from-red-500 to-purple-500 absolute -bottom-16 -right-16 z-0"></div>
-        </div> */}
         <form
           onSubmit={handleSubmit}
-          className="relative  flex flex-col items-center"
+          className="relative flex flex-col items-center"
         >
           <h3 className="text-2xl font-medium text-white mb-6">Login</h3>
           <div className="w-full mb-4">

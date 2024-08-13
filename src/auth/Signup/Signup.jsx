@@ -20,9 +20,8 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await dispatch(signupUser(formData));
-
     if (signupUser.fulfilled.match(result)) {
-      navigate("/login");
+      navigate(`/login?email=${encodeURIComponent(formData.username)}`);
     } else {
       console.error("Signup failed:", result.payload);
     }
@@ -47,7 +46,7 @@ const Signup = () => {
               Email
             </label>
             <input
-              type="username"
+              type="text"
               placeholder="Email"
               id="username"
               name="username"
