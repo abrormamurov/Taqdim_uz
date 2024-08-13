@@ -18,24 +18,13 @@ function App() {
     return savedSidebarOpen !== null ? JSON.parse(savedSidebarOpen) : true;
   });
 
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const savedIsDarkMode = localStorage.getItem("isDarkMode");
-    return savedIsDarkMode !== null ? JSON.parse(savedIsDarkMode) : false;
-  });
-
   const [username, setUsername] = useState("");
 
   useEffect(() => {
     localStorage.setItem("sidebarOpen", JSON.stringify(sidebarOpen));
   }, [sidebarOpen]);
 
-  useEffect(() => {
-    localStorage.setItem("isDarkMode", JSON.stringify(isDarkMode));
-    document.body.classList.toggle("dark", isDarkMode);
-  }, [isDarkMode]);
-
   const handleOpen = () => setSidebarOpen((prevState) => !prevState);
-  const toggleDarkMode = () => setIsDarkMode((prevState) => !prevState);
 
   return (
     <BrowserRouter>
@@ -57,11 +46,7 @@ function App() {
               <div id="main-content">
                 <Sidebar sidebarOpen={sidebarOpen} setUsername={setUsername} />
                 <div id="content">
-                  <Navbar
-                    toggleDarkMode={toggleDarkMode}
-                    handleOpen={handleOpen}
-                    username={username}
-                  />
+                  <Navbar handleOpen={handleOpen} username={username} />
                   <Routes>
                     <Route path="/" element={<Preview />} />
                     <Route

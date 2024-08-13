@@ -17,6 +17,28 @@ function Preview({ setUsername }) {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
+  const [qrCodeUrl, setQrCodeUrl] = useState(null);
+
+  const handleDownload = async () => {
+    try {
+      if (!qrCodeUrl) return;
+
+      const response = await fetch(qrCodeUrl);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `qr_code_${username}.png`;
+      document.body.appendChild(a);
+      a.click();
+
+      URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Error downloading QR code:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -27,7 +49,7 @@ function Preview({ setUsername }) {
         }
 
         const response = await axios.get(
-          `http://64.225.8.227:9999/profile/${username}`,
+          `http://64.225.8.227:9999/profile/list/${username}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -36,6 +58,7 @@ function Preview({ setUsername }) {
         );
 
         setUserData(response.data);
+        setQrCodeUrl(response.data.qr_code); // Assuming qr_code is part of the response
         if (setUsername) setUsername(username); // Update username state
       } catch (error) {
         if (error.response && error.response.status === 404) {
@@ -44,6 +67,7 @@ function Preview({ setUsername }) {
           setAuthError("Unauthorized access. Please log in again.");
         } else {
           console.error("Error fetching user data:", error);
+          setAuthError("An error occurred. Please try again later.");
         }
       } finally {
         setLoading(false);
@@ -51,15 +75,7 @@ function Preview({ setUsername }) {
     };
 
     fetchUserData();
-  }, [username]);
-
-  if (loading) {
-    return <div className="text-center text-xl text-red-500">Loading...</div>;
-  }
-
-  if (authError) {
-    return <div className="text-center text-xl text-red-500">{authError}</div>;
-  }
+  }, [username, setUsername]);
 
   if (loading) {
     return <div className="text-center text-xl text-red-500">Loading...</div>;
@@ -70,7 +86,7 @@ function Preview({ setUsername }) {
   }
 
   return (
-    <div className="p-5 max-w-4xl mx-auto  rounded-lg  mt-5">
+    <div className="p-5 max-w-4xl mx-auto rounded-lg mt-5">
       <div className="flex justify-center gap-10 flex-col md:flex-row items-center mb-5">
         <div className="mb-4 md:mb-0">
           {userData?.profile_image ? (
@@ -96,15 +112,15 @@ function Preview({ setUsername }) {
             className="text-xl text-blue-600 hover:underline flex items-center justify-center md:justify-start mt-2"
             href={`tel:${userData?.telephone}`}
           >
-            <BsFillTelephoneOutboundFill className="mr-2" />{" "}
+            <BsFillTelephoneOutboundFill className="mr-2" />
             {userData?.telephone}
           </a>
-          <p className="text-lg text-gray-600 mt-2"> {userData?.about}</p>
+          <p className="text-lg mt-2">{userData?.about}</p>
         </div>
       </div>
 
       <div className="mt-5">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-3">Sites</h2>
+        <h2 className="text-2xl font-semibold mb-3">Sites</h2>
         <div className="space-y-2">
           {userData?.sites?.map((site, index) => {
             let Icon;
@@ -144,7 +160,7 @@ function Preview({ setUsername }) {
                     ? "bg-blue-500 text-white"
                     : site.icon === "Whatsapp"
                     ? "bg-green-500 text-white"
-                    : site.icon === "tel:"
+                    : site.icon === "Telephone"
                     ? "bg-green-500 text-white"
                     : site.icon === "YouTube"
                     ? "bg-red-600 text-white"
@@ -154,9 +170,7 @@ function Preview({ setUsername }) {
                 }`}
               >
                 <Icon className="mr-2 w-10 h-10" />
-                <span className="font-bold text-lg font-helvetica">
-                  {site.icon}
-                </span>
+                <span className="font-bold text-lg">{site.icon}</span>
               </a>
             );
           })}
@@ -164,25 +178,24 @@ function Preview({ setUsername }) {
       </div>
 
       <div className="mt-5 text-center">
-        {userData?.qr_code ? (
+        {qrCodeUrl ? (
           <>
             <img
-              src={userData.qr_code}
+              src={qrCodeUrl}
               alt="QR Code"
               className="w-20 h-20 mx-auto border-2 border-gray-800 rounded-lg"
             />
             <div className="mt-3">
-              <a
-                href={userData.qr_code}
-                download="qr_code.png"
-                className="text-blue-600 hover:underline"
+              <button
+                onClick={handleDownload}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
               >
                 Download QR Code
-              </a>
+              </button>
             </div>
           </>
         ) : (
-          <div className="text-gray-600">No QR Code</div>
+          <div>No QR Code</div>
         )}
       </div>
     </div>

@@ -19,7 +19,7 @@ const Profile = {
   },
   async getProfile(username) {
     try {
-      const response = await api.get(`/profile/${username}`, {
+      const response = await api.get(`/profile/list/${username}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },

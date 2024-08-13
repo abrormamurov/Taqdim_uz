@@ -17,61 +17,26 @@ function UserPreview({ setUsername }) {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
+  const [qrCodeUrl, setQrCodeUrl] = useState(null); // QR kod URL holati
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem("access_token");
-        if (!token) {
-          throw new Error("No authentication token found");
-        }
-
         const response = await axios.get(
-          `http://64.225.8.227:9999/profile/${username}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          `http://64.225.8.227:9999/profile/list/${username}`
         );
 
         setUserData(response.data);
+        setQrCodeUrl(response.data.qr_code); // QR kod URLni o'rnatish
         if (setUsername) setUsername(username); // Update username state
       } catch (error) {
-        if (error.response && error.response.status === 401) {
-          // Agar token muddati o'tgan bo'lsa, uni yangilashga harakat qiling
-          try {
-            const refreshToken = localStorage.getItem("refresh_token");
-            const refreshResponse = await axios.post(
-              "http://64.225.8.227:9999/token/refresh/",
-              { refresh: refreshToken }
-            );
-
-            const newAccessToken = refreshResponse.data.access;
-            localStorage.setItem("access_token", newAccessToken);
-
-            // Yangi token bilan so'rovni qayta yuborish
-            const retryResponse = await axios.get(
-              `http://64.225.8.227:9999/profile/${username}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${newAccessToken}`,
-                },
-              }
-            );
-
-            setUserData(retryResponse.data);
-            if (setUsername) setUsername(username);
-          } catch (refreshError) {
-            // Tokenni yangilash ham muvaffaqiyatsiz bo'lsa, foydalanuvchini tizimdan chiqarish
-            setAuthError("Unauthorized access. Please log in again.");
-            localStorage.removeItem("access_token");
-            localStorage.removeItem("refresh_token");
-          }
-        } else if (error.response && error.response.status === 404) {
+        if (error.response && error.response.status === 404) {
           setAuthError("User not found");
+        } else if (error.response && error.response.status === 401) {
+          setAuthError("Authentication credentials were not provided.");
         } else {
           console.error("Error fetching user data:", error);
+          setAuthError("An error occurred. Please try again later.");
         }
       } finally {
         setLoading(false);
@@ -80,6 +45,27 @@ function UserPreview({ setUsername }) {
 
     fetchUserData();
   }, [username, setUsername]);
+
+  const handleDownload = async () => {
+    try {
+      if (!qrCodeUrl) return;
+
+      const response = await fetch(qrCodeUrl);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `qr_code_${username}.png`;
+      document.body.appendChild(a);
+      a.click();
+
+      URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Error downloading QR code:", error);
+    }
+  };
 
   if (loading) {
     return <div className="text-center text-xl text-red-500">Loading...</div>;
@@ -119,12 +105,12 @@ function UserPreview({ setUsername }) {
             <BsFillTelephoneOutboundFill className="mr-2" />{" "}
             {userData?.telephone}
           </a>
-          <p className="text-lg text-gray-600 mt-2">{userData?.about}</p>
+          <p className="text-lg  mt-2">{userData?.about}</p>
         </div>
       </div>
 
       <div className="mt-5">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-3">Sites</h2>
+        <h2 className="text-2xl font-semibold  mb-3">Sites</h2>
         <div className="space-y-2">
           {userData?.sites?.map((site, index) => {
             let Icon;
@@ -184,25 +170,24 @@ function UserPreview({ setUsername }) {
       </div>
 
       <div className="mt-5 text-center">
-        {userData?.qr_code ? (
+        {qrCodeUrl ? (
           <>
             <img
-              src={userData.qr_code}
+              src={qrCodeUrl}
               alt="QR Code"
               className="w-20 h-20 mx-auto border-2 border-gray-800 rounded-lg"
             />
             <div className="mt-3">
-              <a
-                href={userData.qr_code}
-                download="qr_code.png"
-                className="text-blue-600 hover:underline"
+              <button
+                onClick={handleDownload}
+                className=" text-white hover:underline"
               >
                 Download QR Code
-              </a>
+              </button>
             </div>
           </>
         ) : (
-          <div className="text-gray-600">No QR Code</div>
+          <div>No QR Code</div>
         )}
       </div>
     </div>

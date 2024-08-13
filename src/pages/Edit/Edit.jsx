@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import Profile from "../../service/edit";
 import IconSelector from "../../components/IconMap/IconSelector";
 import "./Edit.css";
-import { FaRegUser } from "react-icons/fa";
 
 function Edit() {
   const [formData, setFormData] = useState({
@@ -28,11 +27,18 @@ function Edit() {
 
       try {
         const profile = await Profile.getProfile(username);
+
+        let profileImageUrl = null;
+        if (profile.profile_image instanceof Blob) {
+          profileImageUrl = URL.createObjectURL(profile.profile_image);
+        }
+
         setFormData((prevData) => ({
           ...prevData,
           ...profile,
-          profile_image: null,
+          profile_image: profileImageUrl,
         }));
+
         if (profile.sites) {
           setUrls(profile.sites);
         }
@@ -138,14 +144,14 @@ function Edit() {
 
   return (
     <div className="edit-container max-w-sm mx-auto p-4">
-      {loading && <p className="text-gray-600">Loading...</p>}
+      {loading && <p className="">Loading...</p>}
       {error && <p className="text-red-600">Xato: {error}</p>}
       <form className="edit-form  flex flex-col gap-6" onSubmit={handleSubmit}>
         <div className="flex items-center ">
           <div className="relative  rounded-full w-44 h-44 overflow-hidden bg-slate-200 flex items-center justify-center transition-transform duration-300 ease-in-out hover:scale-110 hover:bg-slate-300 hover:border-4 hover:border-blue-500 mb-5 md:mb-0">
             {formData.profile_image ? (
               <img
-                src={URL.createObjectURL(formData.profile_image)}
+                src={formData.profile_image}
                 alt="Profil oldindan ko'rsatish"
                 className="object-cover w-full h-full rounded-full"
               />
@@ -167,11 +173,11 @@ function Edit() {
         <div className="flex flex-col md:flex-row gap-5">
           <div className="flex flex-col gap-5 w-full">
             <div className="form-group">
-              <label htmlFor="username" className="block mb-2 text-gray-600">
+              <label htmlFor="username" className="block mb-2 ">
                 User Name
               </label>
               <input
-                className="input w-full p-2 border rounded-md border-gray-300 text-gray-600"
+                className="input w-full p-2 border rounded-md border-gray-300 "
                 type="text"
                 id="username"
                 name="username"
@@ -181,40 +187,40 @@ function Edit() {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="full_name" className="block mb-2 text-gray-600">
+              <label htmlFor="full_name" className="block mb-2 ">
                 Full Name
               </label>
               <input
                 type="text"
                 id="full_name"
                 name="full_name"
-                className="w-full p-2 border rounded-md border-gray-300 text-gray-600"
+                className="w-full p-2 border rounded-md border-gray-300 "
                 value={formData.full_name}
                 onChange={handleChange}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="telephone" className="block mb-2 text-gray-600">
+              <label htmlFor="telephone" className="block mb-2 ">
                 Phone Number
               </label>
               <input
                 type="text"
                 id="telephone"
                 name="telephone"
-                className="w-full p-2 border rounded-md border-gray-300 text-gray-600"
+                className="w-full p-2 border rounded-md border-gray-300 "
                 value={formData.telephone}
                 onChange={handleChange}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="location" className="block mb-2 text-gray-600">
+              <label htmlFor="location" className="block mb-2 ">
                 Location
               </label>
               <input
                 type="text"
                 id="location"
                 name="location"
-                className="w-full p-2 border rounded-md border-gray-300 text-gray-600"
+                className="w-full p-2 border rounded-md border-gray-300 "
                 value={formData.location}
                 onChange={handleChange}
               />
@@ -235,7 +241,7 @@ function Edit() {
         </div>
 
         <div className="form-group">
-          <label className="block mb-2 text-gray-600">Links</label>
+          <label className="block mb-2 ">Links</label>
           {urls.map((url, index) => (
             <div key={index} className="link-item  items-center gap-4 mb-2">
               <input
@@ -244,7 +250,7 @@ function Edit() {
                 placeholder="Nom"
                 value={url.name}
                 onChange={(e) => handleLinkChange(index, e)}
-                className="w-1/2 p-2 border mb-2 mt-2 rounded-md border-gray-300 text-gray-600"
+                className="w-1/2 p-2 border mb-2 mt-2 rounded-md border-gray-300 "
               />
               <input
                 type="text"
@@ -252,10 +258,9 @@ function Edit() {
                 placeholder="URL"
                 value={url.url}
                 onChange={(e) => handleLinkChange(index, e)}
-                className="w-1/2 p-2 border  rounded-md border-gray-300 text-gray-600"
+                className="w-1/2 p-2 border  rounded-md border-gray-300 "
               />
               <div className="flex justify-between mt-2">
-                {" "}
                 <IconSelector type={url.icon} />
                 <button
                   type="button"
@@ -267,22 +272,23 @@ function Edit() {
               </div>
             </div>
           ))}
-          <div className="flex flex-col md:flex-row justify-between ">
+          <div className="flex flex-col md:flex-row justify-between items-center">
             <button
               type="button"
               onClick={handleAddLink}
-              className="add-link-btn  bg-blue-500 text-white p-2 rounded w-full md:w-auto"
+              className="bg-blue-500  text-white px-4 py-2 rounded-md"
             >
               Add Link
             </button>
-            <button
-              type="submit"
-              className="submit-btn bg-blue-500 text-white p-2 rounded w-full md:w-auto"
-            >
-              Save
-            </button>
           </div>
         </div>
+
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+        >
+          Save
+        </button>
       </form>
     </div>
   );

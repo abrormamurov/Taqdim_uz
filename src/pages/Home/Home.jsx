@@ -22,12 +22,12 @@ function Home() {
         </div>
 
         <div className="hidden md:flex gap-6 items-center">
-          <Link to="#" className="hover:text-indigo-600 text-lg font-medium">
+          {/* <Link to="#" className="hover:text-indigo-600 text-lg font-medium">
             How It Works
           </Link>
           <Link to="#" className="hover:text-indigo-600 text-lg font-medium">
             Features
-          </Link>
+          </Link> */}
           <Link to="/login">
             <button className="btn2 mt-8 hover:bg-indigo-500 hover:text-white transition py-2 px-4 rounded-lg text-lg font-semibold">
               Log In
@@ -50,7 +50,7 @@ function Home() {
         }`}
       >
         <div className="flex flex-col gap-4 items-center">
-          <Link
+          {/* <Link
             to="#"
             className="mb-2 hover:text-indigo-600 text-lg font-medium"
           >
@@ -61,7 +61,7 @@ function Home() {
             className="mb-2 hover:text-indigo-600 text-lg font-medium"
           >
             Features
-          </Link>
+          </Link> */}
           <Link to="/login" className="mb-2">
             <button className="btn2 hover:bg-indigo-500 transition py-2 px-4 rounded-lg text-lg font-semibold">
               Log In
@@ -77,7 +77,7 @@ function Home() {
 
       <div className="flex flex-col md:flex-row mt-16 md:mt-20 justify-between items-center text-center md:text-left mb-16 md:mb-24">
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start">
-          <h2 className="font-extrabold text-4xl md:text-6xl text-neutral mb-6">
+          <h2 className="font-extrabold text-4xl md:text-6xl  mb-6">
             Now, you only need one link.
           </h2>
           <h4 className="text-lg md:text-2xl mb-8">
