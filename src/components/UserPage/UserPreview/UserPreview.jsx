@@ -23,7 +23,7 @@ function UserPreview({ setUsername }) {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `http://64.225.8.227:9999/profile/list/${username}`
+          `http://95.46.96.78:9999/profile/list/${username}`
         );
 
         setUserData(response.data);

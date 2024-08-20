@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { HiMenu } from "react-icons/hi"; // Import a menu icon
-import { SiInstagram } from "react-icons/si";
+import { SiApple, SiDropbox, SiInstagram, SiSteam } from "react-icons/si";
 import { BiLogoTelegram } from "react-icons/bi";
 import { SiWhatsapp } from "react-icons/si";
 
@@ -93,28 +93,26 @@ function Home() {
         </div>
 
         <div className="mt-10 md:mt-0 w-full md:w-1/2 flex justify-center">
-          <div className="mockup-phone">
-            <div className="camera"></div>
-            <div className="display">
-              <div className="artboard artboard-demo phone-1 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-6 md:p-8 rounded-lg shadow-lg">
-                <div className="avatar">
-                  <div className="w-32 md:w-40 rounded-full mb-6">
-                    <img
-                      src="https://www.pngitem.com/pimgs/m/576-5768840_cartoon-man-png-avatar-transparent-png.png"
-                      alt="Profile"
-                    />
-                  </div>
-                </div>
-                <button className="btnti flex items-center justify-center gap-3 font-bold text-lg md:text-xl mb-4 py-2 px-4 rounded-lg">
-                  <SiInstagram className="text-xl md:text-2xl" /> Instagram
-                </button>
-                <button className="btntt flex items-center justify-center gap-3 font-bold text-lg md:text-xl mb-4 py-2 px-4 rounded-lg">
-                  <BiLogoTelegram className="text-xl md:text-2xl" /> Telegram
-                </button>
-                <button className="btntw flex items-center justify-center gap-3 font-bold text-lg md:text-xl mb-4 py-2 px-4 rounded-lg">
-                  <SiWhatsapp className="text-xl md:text-2xl" /> Whatsapp
-                </button>
-              </div>
+          <div className="relative">
+            <img
+              src="https://cdn.myurls.co/packs/media/images/website/graphics/phone-in-blob-4-74972f94cd435c175722450fc6bee86a.jpg"
+              alt=""
+              className="w-full h-auto"
+            />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6">
+              <div className="rounded-full overflow-hidden mb-6"></div>
+              <button className="bg-blue-500 flex items-center justify-center gap-3 font-bold text-lg md:text-xl py-2 px-4 rounded-lg w-[299px]">
+                <SiSteam className="text-xl md:text-2xl" /> Steam
+              </button>
+              <button className="bg-green-500 flex items-center justify-center gap-3 font-bold text-lg md:text-xl py-2 px-4 rounded-lg w-[299px]">
+                <SiWhatsapp className="text-xl md:text-2xl" /> WhatsApp
+              </button>
+              <button className="bg-blue-600 flex items-center justify-center gap-3 font-bold text-lg md:text-xl py-2 px-4 rounded-lg w-[299px]">
+                <SiDropbox className="text-xl md:text-2xl" /> Dropbox
+              </button>
+              <button className="bg-purple-500 flex items-center justify-center gap-3 font-bold text-lg md:text-xl py-2 px-4 rounded-lg w-[299px]">
+                <SiApple className="text-xl md:text-2xl" /> Apple Podcasts
+              </button>
             </div>
           </div>
         </div>
