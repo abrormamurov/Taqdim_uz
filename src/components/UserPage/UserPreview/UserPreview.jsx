@@ -23,7 +23,7 @@ function UserPreview({ setUsername }) {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `http://95.46.96.78:9999/profile/list/${username}`
+          `https://api.taqdim.uz/profile/list/${username}`
         );
 
         setUserData(response.data);

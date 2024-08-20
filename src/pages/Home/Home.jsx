@@ -99,7 +99,7 @@ function Home() {
               alt=""
               className="w-full h-auto"
             />
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6">
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-6">
               <div className="rounded-full overflow-hidden mb-6"></div>
               <button className="bg-blue-500 flex items-center justify-center gap-3 font-bold text-lg md:text-xl py-2 px-4 rounded-lg w-[299px]">
                 <SiSteam className="text-xl md:text-2xl" /> Steam

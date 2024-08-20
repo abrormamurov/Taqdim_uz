@@ -9,7 +9,7 @@ import {
 import { refreshToken } from "./auth";
 
 const api = axios.create({
-  baseURL: "http://95.46.96.78:9999/",
+  baseURL: "https://api.taqdim.uz/",
 });
 
 api.interceptors.response.use(
