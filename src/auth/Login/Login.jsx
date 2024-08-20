@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import { loginUser } from "../../features/slice/AuthSlice";
 
 const Login = () => {
@@ -24,18 +25,48 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      console.log("User found, navigating to /preview:", user);
-      navigate(`/preview/${username}`);
+      console.log("User found, checking accounts:", user);
+      checkUserAccounts();
     }
-  }, [navigate, user, username]);
+  }, [navigate, user]);
+
+  const checkUserAccounts = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        throw new Error("No authentication token found");
+      }
+
+      const response = await axios.get(`https://api.taqdim.uz/profile/list/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Debug uchun qaytgan natijani tekshiring
+      console.log("Accounts response:", response.data);
+
+      const accounts = response.data;
+      if (Array.isArray(accounts) && accounts.length > 0) {
+        // Birinchi accountga o'tish
+        navigate(`/preview/${accounts[0].username}`);
+      } else {
+        // Hech qanday account yo'q bo'lsa 'create' sahifasiga o'tish
+        navigate("/create");
+      }
+    } catch (error) {
+      console.error("Error checking user accounts:", error);
+      navigate("/create");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await dispatch(loginUser({ username, password }));
     if (loginUser.fulfilled.match(result)) {
-      const { access, user } = result.payload;
+      const { access } = result.payload;
       localStorage.setItem("access_token", access);
-      navigate(`/preview/${username}`, { state: user });
+      checkUserAccounts();
     } else {
       console.error("Login failed:", result.payload);
     }
