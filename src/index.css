@@ -28,6 +28,12 @@
   font-weight: 400;
   font-style: normal;
 }
+/* App.css faylingizga qo'shing */
+body.light-mode {
+  background-color: #ffffff;
+  color: #000000;
+  /* qo'shimcha light mode ranglar va stil o'rnatish */
+}
 
 /* @font-face {
   font-family: 'Gilroy';
@@ -35,6 +41,10 @@
   font-weight: 700;
   font-style: normal;
 } */
+.icon-size {
+  width: 17px;
+  height: 17px;
+}
 
 body {
   margin: 0;

@@ -8,6 +8,8 @@ import {
   FaWhatsapp,
   FaFacebookF,
   FaGlobe,
+  FaGithub,
+  FaLinkedin,
 } from "react-icons/fa";
 import "./IconSelector.css";
 
@@ -43,6 +45,14 @@ const iconMap = {
   PhoneNumber: {
     icon: <BsTelephone size={24} color="#000" />,
     label: "tel:",
+  },
+  GitHub: {
+    icon: <FaGithub size={24} color="#000" />,
+    label: "GitHub",
+  },
+  LinkedIn: {
+    icon: <FaLinkedin size={24} color="#000" />,
+    label: "LinkedIn",
   },
 };
 

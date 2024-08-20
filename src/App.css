@@ -14,6 +14,11 @@ li {
   list-style: none;
 }
 
+/* App.css faylingizga qo'shing */
+html {
+  color-scheme: light;
+}
+
 :root {
   --poppins: "Poppins", sans-serif;
   --lato: "Lato", sans-serif;

@@ -5,38 +5,65 @@ import { IoLocationSharp } from "react-icons/io5";
 import { BsFillTelephoneOutboundFill, BsTelephone } from "react-icons/bs";
 import {
   FaInstagram,
-  FaTelegram,
+  FaTwitter,
+  FaTelegramPlane,
   FaWhatsapp,
-  FaYoutube,
-  FaFacebook,
+  FaFacebookF,
   FaGlobe,
+  FaGithub,
+  FaLinkedin,
+  FaCopy,
 } from "react-icons/fa";
-
+import { BsYoutube } from "react-icons/bs";
 function Preview({ setUsername }) {
   const { username } = useParams();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
   const [qrCodeUrl, setQrCodeUrl] = useState(null);
-
+  const handleCopy = () => {
+    navigator.clipboard
+      .writeText(`https://taqdim.uz/${username}`)
+      .then(() => {
+        alert("URL copied to clipboard!");
+      })
+      .catch((error) => {
+        console.error("Error copying URL:", error);
+      });
+  };
   const handleDownload = async () => {
+    if (!qrCodeUrl) {
+      console.warn("No QR code URL available.");
+      return;
+    }
+
     try {
-      if (!qrCodeUrl) return;
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", qrCodeUrl, true);
+      xhr.responseType = "blob";
 
-      const response = await fetch(qrCodeUrl);
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          const url = window.URL.createObjectURL(xhr.response);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `qr_code_${username}.png`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        } else {
+          console.error(`Failed to fetch QR code. Status: ${xhr.status}`);
+        }
+      };
 
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `qr_code_${username}.png`;
-      document.body.appendChild(a);
-      a.click();
+      xhr.onerror = function () {
+        console.error("Error fetching QR code.");
+      };
 
-      URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+      xhr.send();
     } catch (error) {
-      console.error("Error downloading QR code:", error);
+      console.error("Error downloading QR code:", error.message);
     }
   };
 
@@ -97,7 +124,7 @@ function Preview({ setUsername }) {
   }
 
   return (
-    <div className="p-5 max-w-4xl mx-auto rounded-lg mt-5">
+    <div className="p-5  max-w-4xl mx-auto rounded-lg mt-5">
       <div className="flex justify-center gap-10 flex-col md:flex-row items-center mb-5">
         <div className="mb-4 md:mb-0">
           {userData?.profile_image ? (
@@ -117,7 +144,7 @@ function Preview({ setUsername }) {
             {userData?.username}
           </h1>
           <p className="text-xl text-blue-600 flex items-center justify-center md:justify-start mt-2">
-            <IoLocationSharp className="mr-2" /> {userData?.location}
+            <IoLocationSharp className="mr-2" size={26} /> {userData?.location}
           </p>
           <a
             className="text-xl text-blue-600 hover:underline flex items-center justify-center md:justify-start mt-2"
@@ -129,86 +156,113 @@ function Preview({ setUsername }) {
           <p className="text-lg mt-2">{userData?.about}</p>
         </div>
       </div>
+      <div className="mt-5 text-center flex justify-center items-center">
+        <div className="flex h-10 pr-0 border-2 border-[#dedeff] rounded-3xl items-center justify-between w-96 p-4">
+          <span className="text-gray-700">
+            <a
+              href={`https://taqdim.uz/${username}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              <code> https://taqdim.uz</code> /{username}
+            </a>
+          </span>
+          <button
+            onClick={handleCopy}
+            className="ml-3  m-0 hover:text-gray-800 border text-center border-blue-500 rounded-3xl px-6 py-0"
+            aria-label="Copy URL"
+          >
+            <FaCopy size={20} />
+          </button>
+        </div>
+      </div>
 
       <div className="mt-5">
-        <h2 className="text-2xl font-semibold mb-3">Sites</h2>
         <div className="space-y-2">
           {userData?.sites?.map((site, index) => {
             let Icon;
+            let backgroundColor;
+
             switch (site.icon) {
               case "Instagram":
                 Icon = FaInstagram;
+                backgroundColor = "bg-pink-600";
                 break;
               case "Telegram":
-                Icon = FaTelegram;
+                Icon = FaTelegramPlane;
+                backgroundColor = "bg-blue-500";
                 break;
               case "Whatsapp":
                 Icon = FaWhatsapp;
+                backgroundColor = "bg-green-500";
                 break;
               case "YouTube":
-                Icon = FaYoutube;
+                Icon = BsYoutube;
+                backgroundColor = "bg-red-600";
                 break;
               case "Facebook":
-                Icon = FaFacebook;
+                Icon = FaFacebookF;
+                backgroundColor = "bg-blue-800";
+                break;
+              case "GitHub":
+                Icon = FaGithub;
+                backgroundColor = "bg-gray-800"; // qo'shimcha rang
+                break;
+              case "LinkedIn":
+                Icon = FaLinkedin;
+                backgroundColor = "bg-blue-700"; // qo'shimcha rang
                 break;
               case "Telephone":
                 Icon = BsTelephone;
+                backgroundColor = "bg-green-500";
                 break;
               default:
-                Icon = FaGlobe; // Agar aniqlanmagan bo'lsa, umumiy veb-ikonka
+                Icon = FaGlobe;
+                backgroundColor = "bg-gray-200"; // umumiy veb-ikonka
             }
 
             return (
-              <a
-                key={index}
-                href={site.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`flex gap-3 items-center p-4 rounded-lg shadow-md ${
-                  site.icon === "Instagram"
-                    ? "bg-pink-600 text-white"
-                    : site.icon === "Telegram"
-                    ? "bg-blue-500 text-white"
-                    : site.icon === "Whatsapp"
-                    ? "bg-green-500 text-white"
-                    : site.icon === "Telephone"
-                    ? "bg-green-500 text-white"
-                    : site.icon === "YouTube"
-                    ? "bg-red-600 text-white"
-                    : site.icon === "Facebook"
-                    ? "bg-blue-800 text-white"
-                    : "bg-gray-200 text-black"
-                }`}
-              >
-                <Icon className="mr-2 w-10 h-10" />
-                <span className="font-bold text-lg">{site.icon}</span>
-              </a>
+              <div className="flex flex-col justify-center items-center">
+                {" "}
+                <a
+                  key={index}
+                  href={site.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex gap-3 items-center w-full p-4 rounded-lg shadow-md ${backgroundColor} text-white`}
+                >
+                  <Icon className="mr-2 w-10 h-10" />
+                  <span className="font-bold text-lg font-helvetica">
+                    {site.icon}
+                  </span>
+                </a>
+              </div>
             );
           })}
         </div>
       </div>
 
-      <div className="mt-5 text-center">
-        {qrCodeUrl ? (
-          <>
-            <img
-              src={qrCodeUrl}
-              alt="QR Code"
-              className="w-20 h-20 mx-auto border-2 border-gray-800 rounded-lg"
-            />
-            <div className="mt-3">
-              <button
-                onClick={handleDownload}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+      {qrCodeUrl && (
+        <div className="mt-5 text-center">
+          <img
+            src={qrCodeUrl}
+            alt="QR Code"
+            className="w-20 h-20 mx-auto border-2 border-gray-800 rounded-lg"
+          />
+          <div className="flex gap-3 mt-5 justify-center items-center">
+            <div className="">
+              <a
+                href={qrCodeUrl}
+                download={`qr_code_${username}.png`}
+                className="text-white bg-blue-500 hover:bg-blue-700 px-4 py-2   rounded-lg"
               >
                 Download QR Code
-              </button>
+              </a>
             </div>
-          </>
-        ) : (
-          <div>No QR Code</div>
-        )}
-      </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

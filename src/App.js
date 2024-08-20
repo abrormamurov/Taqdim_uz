@@ -25,6 +25,10 @@ function App() {
   }, [sidebarOpen]);
 
   const handleOpen = () => setSidebarOpen((prevState) => !prevState);
+  // App.js yoki index.js faylida
+  useEffect(() => {
+    document.body.classList.add("light-mode");
+  }, []);
 
   return (
     <BrowserRouter>

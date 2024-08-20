@@ -115,7 +115,9 @@ const Login = () => {
               className="w-full bg-gray-800 text-white rounded-md p-2 placeholder-gray-400"
             />
           </div>
-          {error && <p className="text-red-500 mb-4">{renderError(error)}</p>}
+          {error && (
+            <p className="text-red-500 mb-4">Email or Password is wrong!</p>
+          )}
           <button
             type="submit"
             disabled={loading}

@@ -100,7 +100,8 @@ function Edit() {
     if (url.match(/youtube/)) return "YouTube";
     if (url.match(/web/)) return "Web";
     if (url.match(/tel:/)) return "PhoneNumber";
-
+    if (url.match(/linkedin/)) return "LinkedIn";
+    if (url.match(/github/)) return "GitHub";
     return "";
   };
 

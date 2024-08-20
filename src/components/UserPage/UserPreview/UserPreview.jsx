@@ -5,12 +5,16 @@ import { IoLocationSharp } from "react-icons/io5";
 import { BsFillTelephoneOutboundFill, BsTelephone } from "react-icons/bs";
 import {
   FaInstagram,
-  FaTelegram,
+  FaTwitter,
+  FaTelegramPlane,
   FaWhatsapp,
-  FaYoutube,
-  FaFacebook,
+  FaFacebookF,
   FaGlobe,
+  FaGithub,
+  FaLinkedin,
 } from "react-icons/fa";
+import { BsYoutube } from "react-icons/bs";
+import { FaCopy } from "react-icons/fa";
 
 function UserPreview({ setUsername }) {
   const { username } = useParams();
@@ -18,6 +22,17 @@ function UserPreview({ setUsername }) {
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
   const [qrCodeUrl, setQrCodeUrl] = useState(null); // QR kod URL holati
+
+  const handleCopy = () => {
+    navigator.clipboard
+      .writeText(`https://taqdim.uz/${username}`)
+      .then(() => {
+        alert("URL copied to clipboard!");
+      })
+      .catch((error) => {
+        console.error("Error copying URL:", error);
+      });
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -96,45 +111,83 @@ function UserPreview({ setUsername }) {
             {userData?.username}
           </h1>
           <p className="text-xl text-blue-600 flex items-center justify-center md:justify-start mt-2">
-            <IoLocationSharp className="mr-2" /> {userData?.location}
+            <IoLocationSharp className=" mr-2" size={26} />
+            {userData?.location}
           </p>
           <a
             className="text-xl text-blue-600 hover:underline flex items-center justify-center md:justify-start mt-2"
             href={`tel:${userData?.telephone}`}
           >
-            <BsFillTelephoneOutboundFill className="mr-2" />{" "}
+            <BsFillTelephoneOutboundFill className="mr-2 " />{" "}
             {userData?.telephone}
           </a>
           <p className="text-lg  mt-2">{userData?.about}</p>
         </div>
       </div>
+      <div className="mt-5 text-center flex justify-center items-center">
+        <div className="flex h-10 border-4 border-blue-500 rounded-3xl items-center justify-center w-96 p-8">
+          <span className="text-gray-700">
+            <a
+              href={`https://taqdim.uz/${username}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              https://taqdim.uz/{username}
+            </a>
+          </span>
+          <button
+            onClick={handleCopy}
+            className="ml-3  text-gray-600 hover:text-gray-800 border mt-7 border-blue-500 rounded-lg px-2 py-1"
+            aria-label="Copy URL"
+          >
+            <FaCopy size={20} />
+          </button>
+        </div>
+      </div>
 
       <div className="mt-5">
-        <h2 className="text-2xl font-semibold  mb-3">Sites</h2>
         <div className="space-y-2">
           {userData?.sites?.map((site, index) => {
             let Icon;
+            let backgroundColor;
+
             switch (site.icon) {
               case "Instagram":
                 Icon = FaInstagram;
+                backgroundColor = "bg-pink-600";
                 break;
               case "Telegram":
-                Icon = FaTelegram;
+                Icon = FaTelegramPlane;
+                backgroundColor = "bg-blue-500";
                 break;
               case "Whatsapp":
                 Icon = FaWhatsapp;
+                backgroundColor = "bg-green-500";
                 break;
               case "YouTube":
-                Icon = FaYoutube;
+                Icon = BsYoutube;
+                backgroundColor = "bg-red-600";
                 break;
               case "Facebook":
-                Icon = FaFacebook;
+                Icon = FaFacebookF;
+                backgroundColor = "bg-blue-800";
+                break;
+              case "GitHub":
+                Icon = FaGithub;
+                backgroundColor = "bg-gray-800"; // qo'shimcha rang
+                break;
+              case "LinkedIn":
+                Icon = FaLinkedin;
+                backgroundColor = "bg-blue-700"; // qo'shimcha rang
                 break;
               case "Telephone":
                 Icon = BsTelephone;
+                backgroundColor = "bg-green-500";
                 break;
               default:
-                Icon = FaGlobe; // Agar aniqlanmagan bo'lsa, umumiy veb-ikonka
+                Icon = FaGlobe;
+                backgroundColor = "bg-gray-200"; // umumiy veb-ikonka
             }
 
             return (
@@ -143,21 +196,7 @@ function UserPreview({ setUsername }) {
                 href={site.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`flex gap-3 items-center p-4 rounded-lg shadow-md ${
-                  site.icon === "Instagram"
-                    ? "bg-pink-600 text-white"
-                    : site.icon === "Telegram"
-                    ? "bg-blue-500 text-white"
-                    : site.icon === "Whatsapp"
-                    ? "bg-green-500 text-white"
-                    : site.icon === "Telephone"
-                    ? "bg-green-500 text-white"
-                    : site.icon === "YouTube"
-                    ? "bg-red-600 text-white"
-                    : site.icon === "Facebook"
-                    ? "bg-blue-800 text-white"
-                    : "bg-gray-200 text-black"
-                }`}
+                className={`flex gap-3 items-center p-4 rounded-lg shadow-md ${backgroundColor} text-white`}
               >
                 <Icon className="mr-2 w-10 h-10" />
                 <span className="font-bold text-lg font-helvetica">
