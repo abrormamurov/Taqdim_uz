@@ -5,7 +5,7 @@ import { logoutUser } from "../../features/slice/AuthSlice";
 import Profile from "../../service/edit"; // Ensure this path is correct
 import "./Sidebar.scss";
 
-function Sidebar({ sidebarOpen }) {
+function Sidebar({ sidebarOpen, t }) {
   const [showCreateAccount, setShowCreateAccount] = useState(false);
   const [accounts, setAccounts] = useState([]);
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ function Sidebar({ sidebarOpen }) {
           <li>
             <label>
               <i className="bx bxs-dashboard"></i>
-              <span className="text">Home</span>
+              <span className="text">{t.home}</span>
             </label>
           </li>
         </NavLink>
@@ -47,7 +47,7 @@ function Sidebar({ sidebarOpen }) {
           <li onClick={toggleCreateAccount}>
             <label>
               <i className="bx bx-user-circle"></i>
-              <span className="text">Profile</span>
+              <span className="text">Profil</span>
             </label>
             {showCreateAccount && (
               <ul className="users">
@@ -68,7 +68,7 @@ function Sidebar({ sidebarOpen }) {
                 ) : (
                   <li>
                     <label>
-                      <span className="bx">No accounts found</span>
+                      <span className="bx">{t.createProfileError}</span>
                     </label>
                   </li>
                 )}
@@ -76,7 +76,7 @@ function Sidebar({ sidebarOpen }) {
                   <li>
                     <label>
                       <i className="bx bx-plus-circle"></i>
-                      <span className="text">Create Account</span>
+                      <span className="text">{t.createaccount} </span>
                     </label>
                   </li>
                 </NavLink>
@@ -120,7 +120,7 @@ function Sidebar({ sidebarOpen }) {
           <li onClick={handleLogout}>
             <label>
               <i className="bx bxs-log-out-circle"></i>
-              <span className="text">Logout</span>
+              <span className="text">{t.logout}</span>
             </label>
           </li>
         </NavLink>

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { loginUser } from "../../features/slice/AuthSlice";
 
-const Login = () => {
+const Login = ({ t }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -88,15 +88,15 @@ const Login = () => {
           onSubmit={handleSubmit}
           className="relative flex flex-col items-center"
         >
-          <h3 className="text-2xl font-medium text-white mb-6">Login</h3>
+          <h3 className="text-2xl font-medium text-white mb-6">{t.login}</h3>
           <div className="w-full mb-4">
             <label htmlFor="username" className="block text-white text-sm mb-2">
-              Email
+              {t.email}
             </label>
             <input
               type="email"
               id="username"
-              placeholder="Email"
+              placeholder={t.email}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full bg-gray-800 text-white rounded-md p-2 placeholder-gray-400"
@@ -104,32 +104,30 @@ const Login = () => {
           </div>
           <div className="w-full mb-4">
             <label htmlFor="password" className="block text-white text-sm mb-2">
-              Password
+              {t.password}
             </label>
             <input
               type="password"
               id="password"
-              placeholder="Enter Password"
+              placeholder={t.password}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full bg-gray-800 text-white rounded-md p-2 placeholder-gray-400"
             />
           </div>
-          {error && (
-            <p className="text-red-500 mb-4">Email or Password is wrong!</p>
-          )}
+          {error && <p className="text-red-500 mb-4">{t.loginError}</p>}
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-white text-gray-800 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors duration-300"
           >
-            {loading ? "Logging in..." : "Log In"}
+            {loading ? t.login : t.login}
           </button>
           <div className="mt-4 text-white">
             <p>
-              Don't have an account?{" "}
+              {t.loginP}{" "}
               <Link to="/signup" className="text-blue-400 hover:underline">
-                Signup
+                {t.signup}
               </Link>
             </p>
           </div>

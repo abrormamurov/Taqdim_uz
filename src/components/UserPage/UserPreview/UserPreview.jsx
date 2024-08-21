@@ -9,14 +9,22 @@ import {
   FaTelegramPlane,
   FaWhatsapp,
   FaFacebookF,
-  FaGlobe,
-  FaGithub,
   FaLinkedin,
+  FaSnapchatGhost,
+  FaSteam,
+  FaTiktok,
+  FaOdnoklassniki,
+  FaVk,
+  FaDropbox,
+  FaGlobe,
+  FaViber,
+  FaGithub,
 } from "react-icons/fa";
-import { BsYoutube } from "react-icons/bs";
-import { FaCopy } from "react-icons/fa";
+import { BsYoutube, BsFillTelephoneForwardFill } from "react-icons/bs";
+import { FaMapMarkedAlt, FaCopy } from "react-icons/fa"; // FaMapMarkedAlt ham Fa dan
+import { FaThreads } from "react-icons/fa6"; // FaThreads ham Fa dan
 
-function UserPreview({ setUsername }) {
+function UserPreview({ setUsername, t }) {
   const { username } = useParams();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -46,9 +54,9 @@ function UserPreview({ setUsername }) {
         if (setUsername) setUsername(username); // Update username state
       } catch (error) {
         if (error.response && error.response.status === 404) {
-          setAuthError("User not found");
+          setAuthError(t.User_not_found);
         } else if (error.response && error.response.status === 401) {
-          setAuthError("Authentication credentials were not provided.");
+          setAuthError(t.Authentication_credentials_were_not_provided);
         } else {
           console.error("Error fetching user data:", error);
           setAuthError("An error occurred. Please try again later.");
@@ -83,7 +91,7 @@ function UserPreview({ setUsername }) {
   };
 
   if (loading) {
-    return <div className="text-center text-xl text-red-500">Loading...</div>;
+    return <div className="text-center text-xl text-red-500">{t.loading}</div>;
   }
 
   if (authError) {
@@ -102,7 +110,7 @@ function UserPreview({ setUsername }) {
             />
           ) : (
             <div className="w-40 h-40 bg-gray-300 rounded-full flex items-center justify-center text-gray-700">
-              No Image
+              {t.NoImaage}
             </div>
           )}
         </div>
@@ -157,6 +165,10 @@ function UserPreview({ setUsername }) {
                 Icon = FaInstagram;
                 backgroundColor = "bg-pink-600";
                 break;
+              case "Twitter":
+                Icon = FaTwitter;
+                backgroundColor = "bg-blue-400";
+                break;
               case "Telegram":
                 Icon = FaTelegramPlane;
                 backgroundColor = "bg-blue-500";
@@ -165,70 +177,109 @@ function UserPreview({ setUsername }) {
                 Icon = FaWhatsapp;
                 backgroundColor = "bg-green-500";
                 break;
-              case "YouTube":
-                Icon = BsYoutube;
-                backgroundColor = "bg-red-600";
-                break;
               case "Facebook":
                 Icon = FaFacebookF;
                 backgroundColor = "bg-blue-800";
                 break;
               case "GitHub":
                 Icon = FaGithub;
-                backgroundColor = "bg-gray-800"; // qo'shimcha rang
+                backgroundColor = "bg-gray-800"; // GitHub uchun mos rang
+                break;
+              case "YouTube":
+                Icon = BsYoutube;
+                backgroundColor = "bg-red-600";
                 break;
               case "LinkedIn":
                 Icon = FaLinkedin;
-                backgroundColor = "bg-blue-700"; // qo'shimcha rang
+                backgroundColor = "bg-blue-700";
                 break;
-              case "Telephone":
-                Icon = BsTelephone;
+              case "Snapchat":
+                Icon = FaSnapchatGhost;
+                backgroundColor = "bg-yellow-500";
+                break;
+              case "Steam":
+                Icon = FaSteam;
+                backgroundColor = "bg-gray-600";
+                break;
+              case "TikTok":
+                Icon = FaTiktok;
+                backgroundColor = "bg-black";
+                break;
+              case "Odnoklassniki":
+                Icon = FaOdnoklassniki;
+                backgroundColor = "bg-orange-500";
+                break;
+              case "VK":
+                Icon = FaVk;
+                backgroundColor = "bg-blue-600";
+                break;
+              case "Dropbox":
+                Icon = FaDropbox;
+                backgroundColor = "bg-blue-500";
+                break;
+              case "GoogleMaps":
+                Icon = FaMapMarkedAlt;
+                backgroundColor = "bg-red-500";
+                break;
+              case "Threads":
+                Icon = FaThreads;
+                backgroundColor = "bg-black";
+                break;
+              case "Viber":
+                Icon = FaViber;
+                backgroundColor = "bg-purple-500";
+                break;
+              case "PhoneNumber":
+                Icon = BsFillTelephoneForwardFill;
                 backgroundColor = "bg-green-500";
                 break;
               default:
                 Icon = FaGlobe;
-                backgroundColor = "bg-gray-200"; // umumiy veb-ikonka
+                backgroundColor = "bg-gray-200";
             }
 
             return (
-              <a
+              <div
+                className="flex flex-col justify-center items-center"
                 key={index}
-                href={site.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`flex gap-3 items-center p-4 rounded-lg shadow-md ${backgroundColor} text-white`}
               >
-                <Icon className="mr-2 w-10 h-10" />
-                <span className="font-bold text-lg font-helvetica">
-                  {site.icon}
-                </span>
-              </a>
+                <a
+                  href={site.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex gap-3 items-center w-full p-4 rounded-lg shadow-md ${backgroundColor} text-white`}
+                >
+                  <Icon className="mr-2 w-10 h-10" />
+                  <span className="font-bold text-lg font-helvetica">
+                    {site.icon}
+                  </span>
+                </a>
+              </div>
             );
           })}
         </div>
       </div>
 
-      <div className="mt-5 text-center">
-        {qrCodeUrl ? (
-          <>
-            <img
-              src={qrCodeUrl}
-              alt="QR Code"
-              className="w-20 h-20 mx-auto border-2 border-gray-800 rounded-lg"
-            />
-            <div className="mt-3">
-              <button
-                onClick={handleDownload}
-                className=" text-white hover:underline"
+      {qrCodeUrl && (
+        <div className="mt-5 text-center">
+          <img
+            src={qrCodeUrl}
+            alt="QR Code"
+            className="w-20 h-20 mx-auto border-2 border-gray-800 rounded-lg"
+          />
+          <div className="flex gap-3 mt-5 justify-center items-center">
+            <div className="">
+              <a
+                href={qrCodeUrl}
+                download={`qr_code_${username}.png`}
+                className="text-white bg-blue-500 hover:bg-blue-700 px-4 py-2   rounded-lg"
               >
-                Download QR Code
-              </button>
+                {t.qrCode}
+              </a>
             </div>
-          </>
-        ) : (
-          <div>No QR Code</div>
-        )}
-      </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

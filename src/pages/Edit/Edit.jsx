@@ -4,7 +4,7 @@ import Profile from "../../service/edit";
 import IconSelector from "../../components/IconMap/IconSelector";
 import "./Edit.css";
 
-function Edit() {
+function Edit({ t }) {
   const [formData, setFormData] = useState({
     username: "",
     full_name: "",
@@ -101,7 +101,17 @@ function Edit() {
     if (url.match(/web/)) return "Web";
     if (url.match(/tel:/)) return "PhoneNumber";
     if (url.match(/linkedin/)) return "LinkedIn";
+    if (url.match(/snapchat/)) return "Snapchat";
+    if (url.match(/steam/)) return "Steam";
+    if (url.match(/tiktok/)) return "TikTok";
+    if (url.match(/odnoklassniki/)) return "Odnoklassniki";
+    if (url.match(/vk/)) return "VK";
+    if (url.match(/dropbox/)) return "Dropbox";
+    if (url.match(/maps.google/)) return "GoogleMaps";
+    if (url.match(/threads/)) return "Threads";
+    if (url.match(/viber/)) return "Viber";
     if (url.match(/github/)) return "GitHub";
+
     return "";
   };
 
@@ -145,8 +155,8 @@ function Edit() {
 
   return (
     <div className="edit-container max-w-sm mx-auto p-4">
-      {loading && <p className="">Loading...</p>}
-      {error && <p className="text-red-600">Xato: {error}</p>}
+      {loading && <p className="">{t.loading}</p>}
+      {error && <p className="text-red-600">Xato: </p>}
       <form className="edit-form  flex flex-col gap-6" onSubmit={handleSubmit}>
         <div className="flex items-center ">
           <div className="relative  rounded-full w-44 h-44 overflow-hidden bg-slate-200 flex items-center justify-center transition-transform duration-300 ease-in-out hover:scale-110 hover:bg-slate-300 hover:border-4 hover:border-blue-500 mb-5 md:mb-0">
@@ -157,8 +167,8 @@ function Edit() {
                 className="object-cover w-full h-full rounded-full"
               />
             ) : (
-              <div className="default-image w-full h-full flex items-center justify-center text-gray-500">
-                No Image
+              <div className="default-image w-full h-full flex items-center justify-center pl-6 text-gray-500">
+                {t.NoImage}
               </div>
             )}
             <input
@@ -167,6 +177,7 @@ function Edit() {
               name="profile_image"
               className="absolute inset-0 opacity-0 cursor-pointer"
               accept="image/*"
+              value={formData.profile_image}
               onChange={handleImageChange}
             />
           </div>
@@ -175,10 +186,10 @@ function Edit() {
           <div className="flex flex-col gap-5 w-full">
             <div className="form-group">
               <label htmlFor="username" className="block mb-2 ">
-                User Name
+                {t.username}
               </label>
               <input
-                className="input w-full p-2 border rounded-md border-gray-300 "
+                className="input w-full p-2 border rounded-md border-gray-300 bg-white"
                 type="text"
                 id="username"
                 name="username"
@@ -189,7 +200,7 @@ function Edit() {
             </div>
             <div className="form-group">
               <label htmlFor="full_name" className="block mb-2 ">
-                Full Name
+                {t.fullname}
               </label>
               <input
                 type="text"
@@ -202,7 +213,7 @@ function Edit() {
             </div>
             <div className="form-group">
               <label htmlFor="telephone" className="block mb-2 ">
-                Phone Number
+                {t.phonenumber}
               </label>
               <input
                 type="text"
@@ -215,7 +226,7 @@ function Edit() {
             </div>
             <div className="form-group">
               <label htmlFor="location" className="block mb-2 ">
-                Location
+                {t.location}
               </label>
               <input
                 type="text"
@@ -228,12 +239,12 @@ function Edit() {
             </div>
             <div className="form-group">
               <label htmlFor="about" className="block mb-2 text-gray-600">
-                About
+                {t.about}
               </label>
               <textarea
                 id="about"
                 name="about"
-                className="w-full p-2 border rounded-md border-gray-300 text-gray-600"
+                className="w-full p-2 border rounded-md border-gray-300 text-gray-600 bg-white"
                 value={formData.about}
                 onChange={handleChange}
               />
@@ -242,7 +253,7 @@ function Edit() {
         </div>
 
         <div className="form-group">
-          <label className="block mb-2 ">Links</label>
+          <label className="block mb-2 ">{t.links}</label>
           {urls.map((url, index) => (
             <div key={index} className="link-item  items-center gap-4 mb-2">
               <input
@@ -268,7 +279,7 @@ function Edit() {
                   onClick={() => handleDeleteLink(index)}
                   className="text-white bg-red-600 hover:text-red-800"
                 >
-                  Delete
+                  {t.delete}
                 </button>
               </div>
             </div>
@@ -279,7 +290,7 @@ function Edit() {
               onClick={handleAddLink}
               className="bg-blue-500  text-white px-4 py-2 rounded-md"
             >
-              Add Link
+              {t.addlink}{" "}
             </button>
           </div>
         </div>
@@ -288,7 +299,7 @@ function Edit() {
           type="submit"
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
         >
-          Save
+          {t.save}
         </button>
       </form>
     </div>

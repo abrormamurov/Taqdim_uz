@@ -3,19 +3,40 @@ import { Navigate, useParams, Link } from "react-router-dom"; // Import Link
 import axios from "axios";
 import { IoLocationSharp } from "react-icons/io5";
 import { BsFillTelephoneOutboundFill, BsTelephone } from "react-icons/bs";
+// import {
+//   FaInstagram,
+//   FaTwitter,
+//   FaTelegramPlane,
+//   FaWhatsapp,
+//   FaFacebookF,
+//   FaGlobe,
+//   FaGithub,
+//   FaLinkedin,
+//   FaCopy,
+// } from "react-icons/fa";
+// import { BsYoutube } from "react-icons/bs";
 import {
   FaInstagram,
   FaTwitter,
   FaTelegramPlane,
   FaWhatsapp,
   FaFacebookF,
-  FaGlobe,
-  FaGithub,
   FaLinkedin,
-  FaCopy,
+  FaSnapchatGhost,
+  FaSteam,
+  FaTiktok,
+  FaOdnoklassniki,
+  FaVk,
+  FaDropbox,
+  FaGlobe,
+  FaViber,
+  FaGithub,
 } from "react-icons/fa";
-import { BsYoutube } from "react-icons/bs";
-function Preview({ setUsername }) {
+import { BsYoutube, BsFillTelephoneForwardFill } from "react-icons/bs";
+import { FaMapMarkedAlt, FaCopy } from "react-icons/fa"; // FaMapMarkedAlt ham Fa dan
+import { FaThreads } from "react-icons/fa6"; // FaThreads ham Fa dan
+
+function Preview({ setUsername, t }) {
   const { username } = useParams();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -24,9 +45,7 @@ function Preview({ setUsername }) {
   const handleCopy = () => {
     navigator.clipboard
       .writeText(`https://taqdim.uz/${username}`)
-      .then(() => {
-        alert("URL copied to clipboard!");
-      })
+      .then(() => {})
       .catch((error) => {
         console.error("Error copying URL:", error);
       });
@@ -105,17 +124,17 @@ function Preview({ setUsername }) {
   }, [username, setUsername]);
 
   if (loading) {
-    return <div className="text-center text-xl text-red-500">Loading...</div>;
+    return <div className="text-center text-xl text-red-500">{t.loading}</div>;
   }
 
   if (authError) {
     return (
       <div className="text-center text-xl text-red-500">
         {authError}
-        {authError === "No Profile matches the given query." && (
+        {authError === t.createProfileError && (
           <div className="mt-4">
             <Link to="/create" className="text-blue-500 hover:underline">
-              Create a Profile
+              {t.createProfile}
             </Link>
           </div>
         )}
@@ -135,7 +154,7 @@ function Preview({ setUsername }) {
             />
           ) : (
             <div className="w-40 h-40 bg-gray-300 rounded-full flex items-center justify-center text-gray-700">
-              No Image
+              {t.NoImage}
             </div>
           )}
         </div>
@@ -183,11 +202,17 @@ function Preview({ setUsername }) {
           {userData?.sites?.map((site, index) => {
             let Icon;
             let backgroundColor;
+            let href;
 
+            // Ikonani va fon rangini aniqlash
             switch (site.icon) {
               case "Instagram":
                 Icon = FaInstagram;
                 backgroundColor = "bg-pink-600";
+                break;
+              case "Twitter":
+                Icon = FaTwitter;
+                backgroundColor = "bg-blue-400";
                 break;
               case "Telegram":
                 Icon = FaTelegramPlane;
@@ -197,44 +222,82 @@ function Preview({ setUsername }) {
                 Icon = FaWhatsapp;
                 backgroundColor = "bg-green-500";
                 break;
-              case "YouTube":
-                Icon = BsYoutube;
-                backgroundColor = "bg-red-600";
-                break;
               case "Facebook":
                 Icon = FaFacebookF;
                 backgroundColor = "bg-blue-800";
                 break;
               case "GitHub":
                 Icon = FaGithub;
-                backgroundColor = "bg-gray-800"; // qo'shimcha rang
+                backgroundColor = "bg-gray-800";
+                break;
+              case "YouTube":
+                Icon = BsYoutube;
+                backgroundColor = "bg-red-600";
                 break;
               case "LinkedIn":
                 Icon = FaLinkedin;
-                backgroundColor = "bg-blue-700"; // qo'shimcha rang
+                backgroundColor = "bg-blue-700";
                 break;
-              case "Telephone":
-                Icon = BsTelephone;
+              case "Snapchat":
+                Icon = FaSnapchatGhost;
+                backgroundColor = "bg-yellow-500";
+                break;
+              case "Steam":
+                Icon = FaSteam;
+                backgroundColor = "bg-gray-600";
+                break;
+              case "TikTok":
+                Icon = FaTiktok;
+                backgroundColor = "bg-black";
+                break;
+              case "Odnoklassniki":
+                Icon = FaOdnoklassniki;
+                backgroundColor = "bg-orange-500";
+                break;
+              case "VK":
+                Icon = FaVk;
+                backgroundColor = "bg-blue-600";
+                break;
+              case "Dropbox":
+                Icon = FaDropbox;
+                backgroundColor = "bg-blue-500";
+                break;
+              case "GoogleMaps":
+                Icon = FaMapMarkedAlt;
+                backgroundColor = "bg-red-500";
+                break;
+              case "Threads":
+                Icon = FaThreads;
+                backgroundColor = "bg-black";
+                break;
+              case "Viber":
+                Icon = FaViber;
+                backgroundColor = "bg-purple-500";
+                break;
+              case "PhoneNumber":
+                Icon = BsFillTelephoneForwardFill;
                 backgroundColor = "bg-green-500";
+                href = `tel:${site.url}`; // Telefon raqami bo'lsa, `tel:` protokoli qo'llanadi
                 break;
               default:
                 Icon = FaGlobe;
-                backgroundColor = "bg-gray-200"; // umumiy veb-ikonka
+                backgroundColor = "bg-gray-200";
             }
 
             return (
-              <div className="flex flex-col justify-center items-center">
-                {" "}
+              <div
+                className="flex flex-col justify-center items-center"
+                key={index}
+              >
                 <a
-                  key={index}
-                  href={site.url}
-                  target="_blank"
+                  href={href || site.url} // Telefon raqami bo'lsa `tel:` protokoli qo'llanadi, aks holda odatdagi URL
+                  target={href ? "_self" : "_blank"} // Telefon raqami uchun yangi oynada ochmaydi
                   rel="noopener noreferrer"
                   className={`flex gap-3 items-center w-full p-4 rounded-lg shadow-md ${backgroundColor} text-white`}
                 >
                   <Icon className="mr-2 w-10 h-10" />
                   <span className="font-bold text-lg font-helvetica">
-                    {site.icon}
+                    {site.icon === "PhoneNumber" ? site.url : site.icon}
                   </span>
                 </a>
               </div>
@@ -257,7 +320,7 @@ function Preview({ setUsername }) {
                 download={`qr_code_${username}.png`}
                 className="text-white bg-blue-500 hover:bg-blue-700 px-4 py-2   rounded-lg"
               >
-                Download QR Code
+                {t.qrCode}
               </a>
             </div>
           </div>

@@ -5,7 +5,7 @@ import { SiApple, SiDropbox, SiInstagram, SiSteam } from "react-icons/si";
 import { BiLogoTelegram } from "react-icons/bi";
 import { SiWhatsapp } from "react-icons/si";
 
-function Home() {
+function Home({ t }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -30,12 +30,12 @@ function Home() {
           </Link> */}
           <Link to="/login">
             <button className="btn2 mt-8 hover:bg-indigo-500 hover:text-white transition py-2 px-4 rounded-lg text-lg font-semibold">
-              Log In
+              {t.login}
             </button>
           </Link>
           <Link to="/signup">
             <button className="btn1 mt-8 hover:bg-indigo-500 transition py-2 px-4 rounded-lg text-lg font-semibold">
-              Sign Up
+              {t.signup}
             </button>
           </Link>
         </div>
@@ -64,12 +64,12 @@ function Home() {
           </Link> */}
           <Link to="/login" className="mb-2">
             <button className="btn2 hover:bg-indigo-500 transition py-2 px-4 rounded-lg text-lg font-semibold">
-              Log In
+              {t.login}
             </button>
           </Link>
           <Link to="/signup" className="mb-2">
             <button className="btn1 hover:bg-indigo-500 transition py-2 px-4 rounded-lg text-lg font-semibold">
-              Sign Up
+              {t.signup}
             </button>
           </Link>
         </div>
@@ -78,18 +78,15 @@ function Home() {
       <div className="flex flex-col md:flex-row mt-16 md:mt-20 justify-between items-center text-center md:text-left mb-16 md:mb-24">
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start">
           <h2 className="font-extrabold text-4xl md:text-6xl  mb-6">
-            Now, you only need one link.
+            {t.homeH2}
           </h2>
-          <h4 className="text-lg md:text-2xl mb-8">
-            Share more with your followers in a single click. Myurls makes it
-            easy to link to all of your content in one place.
-          </h4>
+          <h4 className="text-lg md:text-2xl mb-8">{t.homeP}</h4>
           <Link to="/signup">
             <button className="btn3 hover:bg-indigo-500 hover:text-white font-bold text-lg md:text-xl mb-2 py-2 px-4 rounded-lg">
-              Use Taqdim for Free
+              {t.homeButton}
             </button>
           </Link>
-          <p className="text-lg">People have signed up this week!</p>
+          <p className="text-lg">{t.homeP2}</p>
         </div>
 
         <div className="mt-10 md:mt-0 w-full md:w-1/2 flex justify-center">
@@ -99,20 +96,21 @@ function Home() {
               alt=""
               className="w-full h-auto"
             />
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-6">
-              <div className="rounded-full overflow-hidden mb-6"></div>
-              <button className="bg-blue-500 flex items-center justify-center gap-3 font-bold text-lg md:text-xl py-2 px-4 rounded-lg w-[299px]">
-                <SiSteam className="text-xl md:text-2xl" /> Steam
-              </button>
-              <button className="bg-green-500 flex items-center justify-center gap-3 font-bold text-lg md:text-xl py-2 px-4 rounded-lg w-[299px]">
-                <SiWhatsapp className="text-xl md:text-2xl" /> WhatsApp
-              </button>
-              <button className="bg-blue-600 flex items-center justify-center gap-3 font-bold text-lg md:text-xl py-2 px-4 rounded-lg w-[299px]">
-                <SiDropbox className="text-xl md:text-2xl" /> Dropbox
-              </button>
-              <button className="bg-purple-500 flex items-center justify-center gap-3 font-bold text-lg md:text-xl py-2 px-4 rounded-lg w-[299px]">
-                <SiApple className="text-xl md:text-2xl" /> Apple Podcasts
-              </button>
+            <div className="p-10 w-[56%] md:w-[75%]">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-0 px-20">
+                <button className="bg-blue-500 flex items-center justify-center gap-1 md:gap-3 font-bold text-sm md:text-lg py-2 px-4 rounded-lg w-[91%] md:w-[299px]">
+                  <SiSteam className=" md:text-xl text-sm" /> Steam
+                </button>
+                <button className="bg-green-500 flex items-center justify-center gap-3 font-bold text-sm md:text-lg py-2 px-4 rounded-lg w-[91%] md:w-[299px]">
+                  <SiWhatsapp className="text-lg md:text-xl" /> WhatsApp
+                </button>
+                <button className="bg-blue-600 flex items-center justify-center gap-3 font-bold text-sm md:text-lg py-2 px-4 rounded-lg w-[91%] md:w-[299px]">
+                  <SiDropbox className="text-lg md:text-xl" /> Dropbox
+                </button>
+                <button className="bg-purple-500 flex items-center justify-center gap-3 font-bold text-sm md:text-lg py-2 px-4 rounded-lg w-[91%] md:w-[299px]">
+                  <SiApple className="text-lg md:text-xl" /> Apple Podcasts
+                </button>
+              </div>
             </div>
           </div>
         </div>

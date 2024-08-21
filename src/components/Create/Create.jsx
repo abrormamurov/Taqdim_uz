@@ -4,7 +4,7 @@ import Profile from "../../service/edit";
 import IconSelector from "../IconMap/IconSelector"; // Import IconSelector
 import "./Create.css"; // Import the CSS file for styling
 
-function Create() {
+function Create({ t }) {
   const [formData, setFormData] = useState({
     username: "",
     full_name: "",
@@ -50,6 +50,15 @@ function Create() {
     if (url.match(/web/)) return "Web";
     if (url.match(/tel:/)) return "PhoneNumber";
     if (url.match(/linkedin/)) return "LinkedIn";
+    if (url.match(/snapchat/)) return "Snapchat";
+    if (url.match(/steam/)) return "Steam";
+    if (url.match(/tiktok/)) return "TikTok";
+    if (url.match(/odnoklassniki/)) return "Odnoklassniki";
+    if (url.match(/vk/)) return "VK";
+    if (url.match(/dropbox/)) return "Dropbox";
+    if (url.match(/maps.google/)) return "GoogleMaps";
+    if (url.match(/threads/)) return "Threads";
+    if (url.match(/viber/)) return "Viber";
     if (url.match(/github/)) return "GitHub";
 
     return "";
@@ -116,17 +125,17 @@ function Create() {
         <i className="bx "></i>
         <span className="text-gradient">TAQDIM.UZ</span>
       </NavLink>
-      {loading && <p className="text-center">Loading...</p>}
+      {loading && <p className="text-center">{t.loading}</p>}
       {error && (
         <p className="text-red-500 text-center text-bold text-xl">
-          Error: such a username exists
+          {t.createerror}
         </p>
       )}
       <form className="space-y-4" onSubmit={handleSubmit}>
         {/* Form Inputs */}
         <div className="form-group flex flex-col mb-4">
           <label htmlFor="profile_image" className="mb-2">
-            Profile Image
+            {t.profileimage}
           </label>
           <div className="profile-image-preview mb-4 relative">
             {formData.profile_image ? (
@@ -136,8 +145,8 @@ function Create() {
                 className="w-32 h-32 rounded-full object-cover"
               />
             ) : (
-              <div className="w-32 h-32 rounded-full border border-gray-300 flex items-center justify-center text-gray-500">
-                <span>No Image</span>
+              <div className="w-32 h-32 rounded-full border border-gray-300 flex items-center justify-center pl-4 text-gray-500">
+                <span>{t.NoImage}</span>
               </div>
             )}
             <input
@@ -152,7 +161,7 @@ function Create() {
         </div>
         <div className="form-group flex flex-col mb-4">
           <label htmlFor="username" className="mb-2">
-            Username
+            {t.username}
           </label>
           <input
             type="text"
@@ -165,7 +174,7 @@ function Create() {
         </div>
         <div className="form-group flex flex-col mb-4">
           <label htmlFor="full_name" className="mb-2">
-            Full Name
+            {t.fullname}
           </label>
           <input
             type="text"
@@ -178,7 +187,7 @@ function Create() {
         </div>
         <div className="form-group flex flex-col mb-4">
           <label htmlFor="telephone" className="mb-2">
-            Telephone
+            {t.phonenumber}
           </label>
           <input
             type="text"
@@ -191,7 +200,7 @@ function Create() {
         </div>
         <div className="form-group flex flex-col mb-4">
           <label htmlFor="location" className="mb-2">
-            Location
+            {t.location}
           </label>
           <input
             type="text"
@@ -204,19 +213,19 @@ function Create() {
         </div>
         <div className="form-group flex flex-col mb-4">
           <label htmlFor="about" className="mb-2">
-            About
+            {t.about}
           </label>
           <textarea
             id="about"
             name="about"
             value={formData.about}
             onChange={handleChange}
-            className="w-full max-w-[600px] p-2 text-sm border rounded"
+            className="w-full max-w-[600px] p-2 text-sm border rounded bg-white"
           />
         </div>
 
         <div className="form-group flex flex-col mb-4">
-          <label className="mb-2">Sites</label>
+          <label className="mb-2"> {t.links}</label>
           {formData.sites.map((site, index) => (
             <div key={index} className="flex gap-4 mb-2 items-center">
               <IconSelector type={site.icon} />{" "}
@@ -244,7 +253,7 @@ function Create() {
             onClick={handleAddSite}
             className="py-2 px-4 bg-blue-500 text-white rounded"
           >
-            Add Site
+            {t.addlink}
           </button>
         </div>
 
@@ -252,7 +261,7 @@ function Create() {
           type="submit"
           className="py-2 px-4 bg-blue-500 text-white rounded"
         >
-          {loading ? "Creating..." : "Create Profile"}
+          {loading ? t.loading : t.create}
         </button>
       </form>
     </div>

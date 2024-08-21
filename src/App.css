@@ -14,11 +14,17 @@ li {
   list-style: none;
 }
 
+input {
+  background: #fff;
+}
+
 /* App.css faylingizga qo'shing */
 html {
   color-scheme: light;
 }
-
+body {
+  color-scheme: light;
+}
 :root {
   --poppins: "Poppins", sans-serif;
   --lato: "Lato", sans-serif;
@@ -134,4 +140,17 @@ body {
 }
 .group {
   z-index: 100000000000;
+}
+.container,
+.header,
+.footer {
+  background-color: #fff; /* Oq fon */
+  color: #000; /* Qora matn rang */
+}
+body {
+  min-height: 100vh; /* Ekran balandligini 100% qilib o'rnatadi */
+  margin: 0; /* Har qanday standart marginni olib tashlaydi */
+  padding: 0; /* Har qanday standart paddingni olib tashlaydi */
+  background-color: #fff; /* Oq fon */
+  color: #000; /* Qora matn rang */
 }

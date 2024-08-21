@@ -10,7 +10,16 @@ import {
   FaGlobe,
   FaGithub,
   FaLinkedin,
+  FaSnapchatGhost,
+  FaSteam,
+  FaTiktok,
+  FaOdnoklassniki,
+  FaVk,
+  FaDropbox,
 } from "react-icons/fa";
+import { SiGooglemaps } from "react-icons/si";
+import { FaThreads, FaViber } from "react-icons/fa6";
+
 import "./IconSelector.css";
 
 const iconMap = {
@@ -44,7 +53,7 @@ const iconMap = {
   },
   PhoneNumber: {
     icon: <BsTelephone size={24} color="#000" />,
-    label: "tel:",
+    label: "PhoneNumber",
   },
   GitHub: {
     icon: <FaGithub size={24} color="#000" />,
@@ -53,6 +62,42 @@ const iconMap = {
   LinkedIn: {
     icon: <FaLinkedin size={24} color="#000" />,
     label: "LinkedIn",
+  },
+  Snapchat: {
+    icon: <FaSnapchatGhost size={24} color="#000" />,
+    label: "Snapchat",
+  },
+  Steam: {
+    icon: <FaSteam size={24} color="#000" />,
+    label: "Steam",
+  },
+  TikTok: {
+    icon: <FaTiktok size={24} color="#000" />,
+    label: "TikTok",
+  },
+  Odnoklassniki: {
+    icon: <FaOdnoklassniki size={24} color="#000" />,
+    label: "Odnoklassniki",
+  },
+  VK: {
+    icon: <FaVk size={24} color="#000" />,
+    label: "VK",
+  },
+  Dropbox: {
+    icon: <FaDropbox size={24} color="#000" />,
+    label: "Dropbox",
+  },
+  GoogleMaps: {
+    icon: <SiGooglemaps size={24} color="#000" />,
+    label: "Google Maps",
+  },
+  Threads: {
+    icon: <FaThreads size={24} color="#000" />,
+    label: "Threads",
+  },
+  Viber: {
+    icon: <FaViber size={24} color="#000" />,
+    label: "Viber",
   },
 };
 
