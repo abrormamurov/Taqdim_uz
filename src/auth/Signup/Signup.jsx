@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signupUser } from "../../features/slice/AuthSlice";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Signup = ({ t }) => {
   const dispatch = useDispatch();
@@ -19,21 +20,19 @@ const Signup = ({ t }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await dispatch(signupUser(formData));
-    if (signupUser.fulfilled.match(result)) {
-      navigate(`/login?email=${encodeURIComponent(formData.username)}`);
-    } else {
-      console.error("Signup failed:", result.payload);
+    try {
+      const result = await dispatch(signupUser(formData));
+      if (signupUser.fulfilled.match(result)) {
+        toast.success(t.toastcomplate);
+        navigate(`/login?email=${encodeURIComponent(formData.username)}`);
+      } else {
+        toast.error(t.toasterror);
+        console.error("Signup failed:", result.payload);
+      }
+    } catch (error) {
+      toast.error(t.toasterror);
+      console.error("Signup error:", error);
     }
-  };
-
-  const renderError = (error) => {
-    if (typeof error === "string") {
-      return error;
-    } else if (typeof error === "object" && error.detail) {
-      return error.detail;
-    }
-    return "An unknown error occurred";
   };
 
   return (

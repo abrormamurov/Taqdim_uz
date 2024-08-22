@@ -68,6 +68,13 @@ function Edit({ t }) {
       profile_image: file,
     }));
   };
+  const handlePdfChange = (e) => {
+    const file = e.target.files[0];
+    setFormData((prevData) => ({
+      ...prevData,
+      pdf: file,
+    }));
+  };
 
   const handleLinkChange = (index, e) => {
     const { name, value } = e.target;
@@ -121,8 +128,10 @@ function Edit({ t }) {
     setError(null);
 
     try {
-      const { qr_code, profile_image, ...formDataWithoutQrCode } = formData;
+      const { qr_code, profile_image, pdf, ...formDataWithoutQrCode } =
+        formData;
 
+      // Construct FormData
       const formDataToSend = new FormData();
       for (const key in formDataWithoutQrCode) {
         formDataToSend.append(key, formDataWithoutQrCode[key]);
@@ -132,14 +141,25 @@ function Edit({ t }) {
         formDataToSend.append("profile_image", profile_image);
       }
 
+      if (pdf !== null) {
+        // Fayl o'lchamini tekshirish
+        if (pdf && pdf.size > 5 * 1024 * 1024) {
+          // 5MB cheklov
+          throw new Error("PDF fayli juda katta");
+        }
+        formDataToSend.append("pdf", pdf);
+      }
+
       formDataToSend.append("sites", JSON.stringify(urls));
 
+      // Send request
       const response = await Profile.updateProfile(formDataToSend, username);
 
       if (response) {
         setFormData((prevData) => ({
           ...prevData,
           profile_image: null,
+          pdf: null,
         }));
         navigate(`/preview/${username}`);
       } else {
@@ -147,7 +167,7 @@ function Edit({ t }) {
       }
     } catch (error) {
       console.error("Profilni yangilashda xatolik:", error);
-      setError(error.message);
+      setError("Profilni yangilashda xatolik: " + error.message);
     } finally {
       setLoading(false);
     }
@@ -157,7 +177,11 @@ function Edit({ t }) {
     <div className="edit-container max-w-sm mx-auto p-4">
       {loading && <p className="">{t.loading}</p>}
       {error && <p className="text-red-600">Xato: </p>}
-      <form className="edit-form  flex flex-col gap-6" onSubmit={handleSubmit}>
+      <form
+        className="edit-form  flex flex-col gap-6"
+        onSubmit={handleSubmit}
+        encType="multipart/form-data"
+      >
         <div className="flex items-center ">
           <div className="relative  rounded-full w-44 h-44 overflow-hidden bg-slate-200 flex items-center justify-center transition-transform duration-300 ease-in-out hover:scale-110 hover:bg-slate-300 hover:border-4 hover:border-blue-500 mb-5 md:mb-0">
             {formData.profile_image ? (
@@ -177,7 +201,6 @@ function Edit({ t }) {
               name="profile_image"
               className="absolute inset-0 opacity-0 cursor-pointer"
               accept="image/*"
-              value={formData.profile_image}
               onChange={handleImageChange}
             />
           </div>
@@ -247,6 +270,19 @@ function Edit({ t }) {
                 className="w-full p-2 border rounded-md border-gray-300 text-gray-600 bg-white"
                 value={formData.about}
                 onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="pdf" className="block mb-2 ">
+                pdf{" "}
+              </label>
+              <input
+                type="file"
+                id="pdf"
+                name="pdf"
+                className="w-full p-2 border rounded-md border-gray-300"
+                accept=".pdf"
+                onChange={handlePdfChange}
               />
             </div>
           </div>

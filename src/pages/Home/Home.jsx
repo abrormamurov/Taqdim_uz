@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { HiMenu } from "react-icons/hi"; // Import a menu icon
-import { SiApple, SiDropbox, SiInstagram, SiSteam } from "react-icons/si";
+import { HiMenu } from "react-icons/hi";
+import { SiApple, SiDropbox, SiSteam } from "react-icons/si";
 import { BiLogoTelegram } from "react-icons/bi";
 import { SiWhatsapp } from "react-icons/si";
+import { TranslationSwitcher } from "../../components/Translation/Translations"; // Import
 
-function Home({ t }) {
+function Home({ t, language, setLanguage }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -22,19 +23,18 @@ function Home({ t }) {
         </div>
 
         <div className="hidden md:flex gap-6 items-center">
-          {/* <Link to="#" className="hover:text-indigo-600 text-lg font-medium">
-            How It Works
-          </Link>
-          <Link to="#" className="hover:text-indigo-600 text-lg font-medium">
-            Features
-          </Link> */}
+          <TranslationSwitcher
+            className="mb-6"
+            language={language}
+            setLanguage={setLanguage}
+          />
           <Link to="/login">
-            <button className="btn2 mt-8 hover:bg-indigo-500 hover:text-white transition py-2 px-4 rounded-lg text-lg font-semibold">
+            <button className="btn2 mt-12 hover:bg-indigo-500 hover:text-white transition py-2 px-4 rounded-lg text-lg font-semibold">
               {t.login}
             </button>
           </Link>
           <Link to="/signup">
-            <button className="btn1 mt-8 hover:bg-indigo-500 transition py-2 px-4 rounded-lg text-lg font-semibold">
+            <button className="btn1 mt-12 hover:bg-indigo-500 transition py-2 px-4 rounded-lg text-lg font-semibold">
               {t.signup}
             </button>
           </Link>
@@ -49,29 +49,18 @@ function Home({ t }) {
           isMenuOpen ? "max-h-screen" : "max-h-0 overflow-hidden"
         }`}
       >
-        <div className="flex flex-col gap-4 items-center">
-          {/* <Link
-            to="#"
-            className="mb-2 hover:text-indigo-600 text-lg font-medium"
-          >
-            How It Works
-          </Link>
-          <Link
-            to="#"
-            className="mb-2 hover:text-indigo-600 text-lg font-medium"
-          >
-            Features
-          </Link> */}
-          <Link to="/login" className="mb-2">
+        <div className="flex justify-center  gap-4 ">
+          <Link to="/login" className="mt-1">
             <button className="btn2 hover:bg-indigo-500 transition py-2 px-4 rounded-lg text-lg font-semibold">
               {t.login}
             </button>
           </Link>
-          <Link to="/signup" className="mb-2">
+          <Link to="/signup" className="mt-1">
             <button className="btn1 hover:bg-indigo-500 transition py-2 px-4 rounded-lg text-lg font-semibold">
               {t.signup}
             </button>
           </Link>
+          <TranslationSwitcher language={language} setLanguage={setLanguage} />
         </div>
       </div>
 
@@ -86,7 +75,6 @@ function Home({ t }) {
               {t.homeButton}
             </button>
           </Link>
-          <p className="text-lg">{t.homeP2}</p>
         </div>
 
         <div className="mt-10 md:mt-0 w-full md:w-1/2 flex justify-center">

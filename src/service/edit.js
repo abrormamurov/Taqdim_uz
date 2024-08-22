@@ -29,13 +29,18 @@ const Profile = {
       throw error.response || new Error("Unknown error");
     }
   },
-  async updateProfile(params, username) {
+  async updateProfile(formDataToSend, username) {
     try {
-      const response = await api.patch(`/profile/${username}/`, params, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
+      const response = await api.patch(
+        `/profile/${username}/`,
+        formDataToSend,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.error("Update Profile Error Response:", error.response?.data);
@@ -44,6 +49,7 @@ const Profile = {
       );
     }
   },
+
   async createProfile(data) {
     try {
       const response = await api.post("/profile/create/", data, {

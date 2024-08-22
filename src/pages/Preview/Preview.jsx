@@ -31,10 +31,12 @@ import {
   FaGlobe,
   FaViber,
   FaGithub,
+  FaFilePdf,
 } from "react-icons/fa";
 import { BsYoutube, BsFillTelephoneForwardFill } from "react-icons/bs";
 import { FaMapMarkedAlt, FaCopy } from "react-icons/fa"; // FaMapMarkedAlt ham Fa dan
 import { FaThreads } from "react-icons/fa6"; // FaThreads ham Fa dan
+import PdfViewer from "../../PdfViewer";
 
 function Preview({ setUsername, t }) {
   const { username } = useParams();
@@ -50,6 +52,7 @@ function Preview({ setUsername, t }) {
         console.error("Error copying URL:", error);
       });
   };
+
   const handleDownload = async () => {
     if (!qrCodeUrl) {
       console.warn("No QR code URL available.");
@@ -102,19 +105,14 @@ function Preview({ setUsername, t }) {
             },
           }
         );
+        console.log(response.data); // Ma'lumotni konsolga chiqarish
 
         setUserData(response.data);
         setQrCodeUrl(response.data.qr_code); // Assuming qr_code is part of the response
         if (setUsername) setUsername(username); // Update username state
       } catch (error) {
-        if (error.response && error.response.status === 404) {
-          setAuthError("No Profile matches the given query.");
-        } else if (error.response && error.response.status === 401) {
-          setAuthError("Unauthorized access. Please log in again.");
-        } else {
-          console.error("Error fetching user data:", error);
-          setAuthError("An error occurred. Please try again later.");
-        }
+        console.error("Error fetching user data:", error);
+        setAuthError("An error occurred. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -305,6 +303,11 @@ function Preview({ setUsername, t }) {
           })}
         </div>
       </div>
+      {userData?.pdf_url && (
+        <div className="mt-5 text-center">
+          <PdfViewer pdfUrl={userData.pdf_url} />
+        </div>
+      )}
 
       {qrCodeUrl && (
         <div className="mt-5 text-center">

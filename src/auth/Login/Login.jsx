@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { loginUser } from "../../features/slice/AuthSlice";
-
+import toast from "react-hot-toast";
 const Login = ({ t }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -49,12 +49,16 @@ const Login = ({ t }) => {
       const accounts = response.data;
       if (Array.isArray(accounts) && accounts.length > 0) {
         // Birinchi accountga o'tish
+        toast.success(t.toastcomplate);
+
         navigate(`/preview/${accounts[0].username}`);
       } else {
         // Hech qanday account yo'q bo'lsa 'create' sahifasiga o'tish
         navigate("/create");
       }
     } catch (error) {
+      toast.error(t.toasterror);
+
       console.error("Error checking user accounts:", error);
       navigate("/create");
     }
@@ -68,6 +72,8 @@ const Login = ({ t }) => {
       localStorage.setItem("access_token", access);
       checkUserAccounts();
     } else {
+      toast.error(t.toasterror);
+
       console.error("Login failed:", result.payload);
     }
   };

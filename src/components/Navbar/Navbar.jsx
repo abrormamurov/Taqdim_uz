@@ -1,8 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { HiMenu } from "react-icons/hi"; // Importing a menu icon
+import { HiMenu } from "react-icons/hi"; // Menu icon
+import { TranslationSwitcher } from "../Translation/Translations"; // Import qilish
 
-function Navbar({ handleOpen, toggleDarkMode, username, t }) {
+function Navbar({ handleOpen, username, t, language, setLanguage }) {
   return (
     <nav className="h-14 px-6 flex items-center sticky top-0 left-0 shadow-md z-10">
       <div className="flex items-center">
@@ -21,6 +22,12 @@ function Navbar({ handleOpen, toggleDarkMode, username, t }) {
         >
           {t.edit} {/* Tarjima qilingan matn */}
         </NavLink>
+      </div>
+      <div className="flex items-center pb-6">
+        <TranslationSwitcher
+          language={language}
+          setLanguage={setLanguage} // To'g'ri chaqirish
+        />
       </div>
     </nav>
   );
