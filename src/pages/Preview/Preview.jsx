@@ -36,7 +36,7 @@ import {
 import { BsYoutube, BsFillTelephoneForwardFill } from "react-icons/bs";
 import { FaMapMarkedAlt, FaCopy } from "react-icons/fa"; // FaMapMarkedAlt ham Fa dan
 import { FaThreads } from "react-icons/fa6"; // FaThreads ham Fa dan
-import PdfViewer from "../../PdfViewer";
+import toast from "react-hot-toast";
 
 function Preview({ setUsername, t }) {
   const { username } = useParams();
@@ -47,7 +47,9 @@ function Preview({ setUsername, t }) {
   const handleCopy = () => {
     navigator.clipboard
       .writeText(`https://taqdim.uz/${username}`)
-      .then(() => {})
+      .then(() => {
+        toast.success(t.userpreviewcopy);
+      })
       .catch((error) => {
         console.error("Error copying URL:", error);
       });
@@ -160,9 +162,7 @@ function Preview({ setUsername, t }) {
           <h1 className="text-3xl font-bold text-gray-800">
             {userData?.username}
           </h1>
-          <p className="text-xl text-blue-600 flex items-center justify-center md:justify-start mt-2">
-            <IoLocationSharp className="mr-2" size={26} /> {userData?.location}
-          </p>
+
           <a
             className="text-xl text-blue-600 hover:underline flex items-center justify-center md:justify-start mt-2"
             href={`tel:${userData?.telephone}`}
@@ -303,9 +303,17 @@ function Preview({ setUsername, t }) {
           })}
         </div>
       </div>
-      {userData?.pdf_url && (
-        <div className="mt-5 text-center">
-          <PdfViewer pdfUrl={userData.pdf_url} />
+      {userData?.pdf && (
+        <div className="mt-2 text-center">
+          <a
+            href={userData.pdf}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-4  bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600 transition gap-3 duration-300 w-full p-4 font-bold text-lg font-helvetica"
+          >
+            <FaFilePdf className="mr-2 w-10 h-10" />
+            PDF
+          </a>
         </div>
       )}
 

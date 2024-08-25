@@ -176,7 +176,7 @@ function Edit({ t }) {
   return (
     <div className="edit-container max-w-sm mx-auto p-4">
       {loading && <p className="">{t.loading}</p>}
-      {error && <p className="text-red-600">Xato: </p>}
+      {error && <p className="text-red-600">Xato: PDF ni yuklang </p>}
       <form
         className="edit-form  flex flex-col gap-6"
         onSubmit={handleSubmit}

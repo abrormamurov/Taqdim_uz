@@ -19,10 +19,12 @@ import {
   FaGlobe,
   FaViber,
   FaGithub,
+  FaFilePdf,
 } from "react-icons/fa";
 import { BsYoutube, BsFillTelephoneForwardFill } from "react-icons/bs";
 import { FaMapMarkedAlt, FaCopy } from "react-icons/fa"; // FaMapMarkedAlt ham Fa dan
 import { FaThreads } from "react-icons/fa6"; // FaThreads ham Fa dan
+import toast from "react-hot-toast";
 
 function UserPreview({ setUsername, t }) {
   const { username } = useParams();
@@ -35,7 +37,7 @@ function UserPreview({ setUsername, t }) {
     navigator.clipboard
       .writeText(`https://taqdim.uz/${username}`)
       .then(() => {
-        alert("URL copied to clipboard!");
+        toast.success(t.userpreviewcopy);
       })
       .catch((error) => {
         console.error("Error copying URL:", error);
@@ -133,7 +135,7 @@ function UserPreview({ setUsername, t }) {
         </div>
       </div>
       <div className="mt-5 text-center flex justify-center items-center">
-        <div className="flex h-10 border-4 border-blue-500 rounded-3xl items-center justify-center w-96 p-8">
+        <div className="flex h-10 pr-0 border-2 border-[#dedeff] rounded-3xl items-center justify-between w-96 p-4">
           <span className="text-gray-700">
             <a
               href={`https://taqdim.uz/${username}`}
@@ -141,12 +143,12 @@ function UserPreview({ setUsername, t }) {
               rel="noopener noreferrer"
               className="hover:underline"
             >
-              https://taqdim.uz/{username}
+              <code> https://taqdim.uz</code> /{username}
             </a>
           </span>
           <button
             onClick={handleCopy}
-            className="ml-3  text-gray-600 hover:text-gray-800 border mt-7 border-blue-500 rounded-lg px-2 py-1"
+            className="ml-3  m-0 hover:text-gray-800 border text-center border-blue-500 rounded-3xl px-6 py-0"
             aria-label="Copy URL"
           >
             <FaCopy size={20} />
@@ -259,6 +261,19 @@ function UserPreview({ setUsername, t }) {
           })}
         </div>
       </div>
+      {userData?.pdf && (
+        <div className="mt-2 text-center">
+          <a
+            href={userData.pdf}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-4  bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600 transition gap-3 duration-300 w-full p-4 font-bold text-lg font-helvetica"
+          >
+            <FaFilePdf className="mr-2 w-10 h-10" />
+            PDF
+          </a>
+        </div>
+      )}
 
       {qrCodeUrl && (
         <div className="mt-5 text-center">
