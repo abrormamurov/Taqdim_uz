@@ -49,7 +49,7 @@ const Login = ({ t }) => {
       const accounts = response.data;
       if (Array.isArray(accounts) && accounts.length > 0) {
         // Birinchi accountga o'tish
-        toast.success(t.toastcomplate);
+        toast.success(t.toastcomplate1);
 
         navigate(`/preview/${accounts[0].username}`);
       } else {

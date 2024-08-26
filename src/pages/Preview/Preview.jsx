@@ -309,7 +309,7 @@ function Preview({ setUsername, t }) {
             href={userData.pdf}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center px-4  bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600 transition gap-3 duration-300 w-full p-4 font-bold text-lg font-helvetica"
+            className="inline-flex items-center px-4  bg-[#cf1b0e] text-white rounded-lg shadow-lg transition gap-3 duration-300 w-full p-4 font-bold text-lg font-helvetica"
           >
             <FaFilePdf className="mr-2 w-10 h-10" />
             PDF

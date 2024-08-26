@@ -4,8 +4,10 @@ import React, { createContext, useContext, useState } from "react";
 // Tarjima matnlari uchun ob'ekt
 const translations = {
   uz: {
+    Profile: "Profil",
     userpreviewcopy: "URL vaqtinchalik xotiraga nusxalandi!",
     toastcomplate: "Ro'yxatdan muvaffaqiyatli o'tdingiz!",
+    toastcomplate1: "Tizimga muvaffaqiyatli  kirdingiz.",
     toasterror: "Ro'yxatdan o'tishda xatolik yuz berdi.",
     email: "Elektron pochta",
     password: "Parol",
@@ -52,9 +54,10 @@ const translations = {
   },
   en: {
     userpreviewcopy: "URL copied to clipboard!",
-
+    Profile: "Profile",
     toasterror: "An error occurred during registration.",
     toastcomplate: "You have successfully registered!",
+    toastcomplate1: "You have successfully logged in.",
     Authentication_credentials_were_not_provided:
       "Authentication credentials were not provided.",
     profileimage: "Profile Image",
@@ -99,8 +102,9 @@ const translations = {
     save: "save",
   },
   ru: {
+    Profile: "Профиль",
     userpreviewcopy: "URL-адрес скопирован в буфер обмена!",
-
+    toastcomplate1: "Вы успешно вошли в систему.",
     toasterror: "Во время регистрации произошла ошибка.",
     toastcomplate: "Вы успешно зарегистрировались!",
     email: "Электронная почта",

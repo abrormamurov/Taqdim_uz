@@ -47,7 +47,7 @@ function Sidebar({ sidebarOpen, t }) {
           <li onClick={toggleCreateAccount}>
             <label>
               <i className="bx bx-user-circle"></i>
-              <span className="text">Profil</span>
+              <span className="text">{t.Profile}</span>
             </label>
             {showCreateAccount && (
               <ul className="users">
