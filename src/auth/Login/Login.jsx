@@ -4,9 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { loginUser } from "../../features/slice/AuthSlice";
 import toast from "react-hot-toast";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Ko'zcha ikonlar uchun react-icons dan foydalanamiz
+
 const Login = ({ t }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false); // Parol ko'rinishini boshqarish uchun state
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -43,17 +46,14 @@ const Login = ({ t }) => {
         },
       });
 
-      // Debug uchun qaytgan natijani tekshiring
       console.log("Accounts response:", response.data);
 
       const accounts = response.data;
       if (Array.isArray(accounts) && accounts.length > 0) {
-        // Birinchi accountga o'tish
         toast.success(t.toastcomplate1);
 
         navigate(`/preview/${accounts[0].username}`);
       } else {
-        // Hech qanday account yo'q bo'lsa 'create' sahifasiga o'tish
         navigate("/create");
       }
     } catch (error) {
@@ -108,18 +108,29 @@ const Login = ({ t }) => {
               className="w-full bg-gray-800 text-white rounded-md p-2 placeholder-gray-400"
             />
           </div>
-          <div className="w-full mb-4">
+          <div className="relative w-full mb-4">
             <label htmlFor="password" className="block text-white text-sm mb-2">
               {t.password}
             </label>
             <input
-              type="password"
+              type={passwordVisible ? "text" : "password"} // Ko'zcha ikonkasi yordamida ko'rsatish
               id="password"
               placeholder={t.password}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-gray-800 text-white rounded-md p-2 placeholder-gray-400"
+              className="w-full bg-gray-800 text-white rounded-md p-2 placeholder-gray-400 pr-10"
             />
+            <a
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+              className="absolute inset-y-0 right-0 flex mt-7 items-center px-3"
+            >
+              {passwordVisible ? (
+                <FaEyeSlash className="text-gray-400 " />
+              ) : (
+                <FaEye className="text-gray-400 " />
+              )}
+            </a>
           </div>
           {error && <p className="text-red-500 mb-4">{t.loginError}</p>}
           <button
@@ -127,13 +138,22 @@ const Login = ({ t }) => {
             disabled={loading}
             className="w-full bg-white text-gray-800 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors duration-300"
           >
-            {loading ? t.login : t.login}
+            {loading ? t.loggingIn : t.login}
           </button>
           <div className="mt-4 text-white">
             <p>
               {t.loginP}{" "}
               <Link to="/signup" className="text-blue-400 hover:underline">
                 {t.signup}
+              </Link>
+            </p>
+            <p className="mt-">
+              {t.Passwordd}
+              <Link
+                to="/reset-password"
+                className="text-blue-400 hover:underline"
+              >
+                {t.forgotPassword}
               </Link>
             </p>
           </div>

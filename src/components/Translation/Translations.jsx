@@ -4,6 +4,19 @@ import React, { createContext, useContext, useState } from "react";
 // Tarjima matnlari uchun ob'ekt
 const translations = {
   uz: {
+    passwordResetSuccess: "Parol o'zgartirildi!",
+    verificationCode1: "Emailingizga yuborildi",
+    verificationCode: "Tasdiqlash kodi",
+    newPassword: "Yangi parol ",
+    resetPassword: "Parolni tiklash",
+    sendResetLink: "Qayta tiklash havolasini yuboring",
+    passwordResetSent:
+      "Parolni tiklash havolasi elektron pochtangizga yuborildi.",
+    sending: "Yuborilmoqda...",
+    toasterror: "Nimadir xato ketdi. Iltimos, qayta urinib koʻring.",
+
+    Passwordd: "Parolingiz esdan chiqdimi?",
+    forgotPassword: "Parolni tiklash",
     Profile: "Profil",
     userpreviewcopy: "URL vaqtinchalik xotiraga nusxalandi!",
     toastcomplate: "Ro'yxatdan muvaffaqiyatli o'tdingiz!",
@@ -53,6 +66,18 @@ const translations = {
       "Autentifikatsiya ma'lumotlari taqdim etilmagan.",
   },
   en: {
+    passwordResetSuccess: "Password changed!",
+    verificationCode1: "Sent to your email",
+    verificationCode: "Confirmation code",
+    newPassword: "New password ",
+    resetPassword: "Reset Password",
+    sendResetLink: "Send Reset Link",
+    passwordResetSent: "Password reset link has been sent to your email.",
+    sending: "Sending...",
+    toasterror: "Something went wrong. Please try again.",
+
+    forgotPassword: "Reset Password",
+    Passwordd: "Forgot your password?",
     userpreviewcopy: "URL copied to clipboard!",
     Profile: "Profile",
     toasterror: "An error occurred during registration.",
@@ -102,6 +127,20 @@ const translations = {
     save: "save",
   },
   ru: {
+    passwordResetSuccess: "Пароль изменен!",
+
+    verificationCode1: "Отправлено на вашу электронную почту",
+    verificationCode: "Код подтверждения",
+    newPassword: "Новый пароль ",
+    resetPassword: "Сбросить пароль",
+    sendResetLink: "Отправить ссылку для сброса",
+    passwordResetSent:
+      "Ссылка для сброса пароля была отправлена ​​на вашу электронную почту.",
+    sending: "Отправка...",
+    toasterror: "Что-то пошло не так. Пожалуйста, попробуйте еще раз.",
+
+    forgotPassword: "Сбросить пароль",
+    Passwordd: "Забыли пароль?",
     Profile: "Профиль",
     userpreviewcopy: "URL-адрес скопирован в буфер обмена!",
     toastcomplate1: "Вы успешно вошли в систему.",

@@ -13,6 +13,7 @@ import Home from "./pages/Home/Home";
 import UserPreview from "./components/UserPage/UserPreview/UserPreview";
 import { translations } from "./components/Translation/Translations";
 import { Toaster } from "react-hot-toast"; // react-hot-toast kutubxonasidan Toaster komponentini import qilish
+import ResetPassword from "./auth/ResetPassword/ResetPassword";
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(() => {
@@ -42,6 +43,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login t={t} />} />
           <Route path="/signup" element={<Signup t={t} />} />
+          <Route path="/reset-password" element={<ResetPassword t={t} />} />
+
           <Route
             path="/"
             element={

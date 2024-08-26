@@ -3,10 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { signupUser } from "../../features/slice/AuthSlice";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Signup = ({ t }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [passwordVisible, setPasswordVisible] = useState(false); // Parol ko'rinishini boshqarish uchun state
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -54,12 +57,12 @@ const Signup = ({ t }) => {
               className="w-full bg-gray-800 text-white rounded-md p-2 placeholder-gray-400"
             />
           </div>
-          <div className="w-full mb-4">
+          <div className="relative w-full mb-4">
             <label htmlFor="password" className="block text-white text-sm mb-2">
               {t.password}
             </label>
             <input
-              type="password"
+              type={passwordVisible ? "text" : "password"}
               placeholder={t.password}
               id="password"
               name="password"
@@ -67,6 +70,17 @@ const Signup = ({ t }) => {
               onChange={handleChange}
               className="w-full bg-gray-800 text-white rounded-md p-2 placeholder-gray-400"
             />
+            <a
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+              className="absolute inset-y-0 right-0 mt-7 flex items-center px-3"
+            >
+              {passwordVisible ? (
+                <FaEyeSlash className="text-gray-400" />
+              ) : (
+                <FaEye className="text-gray-400" />
+              )}
+            </a>
           </div>
           {error && <p className="text-red-500 mb-4">{t.signupError}</p>}
           <button
