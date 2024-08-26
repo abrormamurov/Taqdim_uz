@@ -37,13 +37,18 @@ import { BsYoutube, BsFillTelephoneForwardFill } from "react-icons/bs";
 import { FaMapMarkedAlt, FaCopy } from "react-icons/fa"; // FaMapMarkedAlt ham Fa dan
 import { FaThreads } from "react-icons/fa6"; // FaThreads ham Fa dan
 import toast from "react-hot-toast";
-
 function Preview({ setUsername, t }) {
   const { username } = useParams();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
   const [qrCodeUrl, setQrCodeUrl] = useState(null);
+  const getFileNameFromUrl = (url) => {
+    // URL'dan fayl nomini ajratib olish
+    const fileName = url.substring(url.lastIndexOf("/") + 1);
+    // .pdf kengaytmasini olib tashlash
+    return fileName.replace(".pdf", "");
+  };
   const handleCopy = () => {
     navigator.clipboard
       .writeText(`https://taqdim.uz/${username}`)
@@ -107,11 +112,11 @@ function Preview({ setUsername, t }) {
             },
           }
         );
-        console.log(response.data); // Ma'lumotni konsolga chiqarish
+        console.log(response.data);
 
         setUserData(response.data);
-        setQrCodeUrl(response.data.qr_code); // Assuming qr_code is part of the response
-        if (setUsername) setUsername(username); // Update username state
+        setQrCodeUrl(response.data.qr_code);
+        if (setUsername) setUsername(username);
       } catch (error) {
         console.error("Error fetching user data:", error);
         setAuthError("An error occurred. Please try again later.");
@@ -143,7 +148,7 @@ function Preview({ setUsername, t }) {
   }
 
   return (
-    <div className="p-5  max-w-4xl mx-auto rounded-lg mt-5">
+    <div className="p-5 max-w-4xl mx-auto rounded-lg mt-5">
       <div className="flex justify-center gap-10 flex-col md:flex-row items-center mb-5">
         <div className="mb-4 md:mb-0">
           {userData?.profile_image ? (
@@ -162,7 +167,6 @@ function Preview({ setUsername, t }) {
           <h1 className="text-3xl font-bold text-gray-800">
             {userData?.username}
           </h1>
-
           <a
             className="text-xl text-blue-600 hover:underline flex items-center justify-center md:justify-start mt-2"
             href={`tel:${userData?.telephone}`}
@@ -187,7 +191,7 @@ function Preview({ setUsername, t }) {
           </span>
           <button
             onClick={handleCopy}
-            className="ml-3  m-0 hover:text-gray-800 border text-center border-blue-500 rounded-3xl px-6 py-0"
+            className="ml-3 m-0 hover:text-gray-800 border text-center border-blue-500 rounded-3xl px-6 py-0"
             aria-label="Copy URL"
           >
             <FaCopy size={20} />
@@ -272,47 +276,51 @@ function Preview({ setUsername, t }) {
                 Icon = FaViber;
                 backgroundColor = "bg-purple-500";
                 break;
-              case "PhoneNumber":
+              case "Phone":
                 Icon = BsFillTelephoneForwardFill;
                 backgroundColor = "bg-green-500";
-                href = `tel:${site.url}`; // Telefon raqami bo'lsa, `tel:` protokoli qo'llanadi
+                break;
+              case "Website":
+                Icon = FaGlobe;
+                backgroundColor = "bg-gray-600";
                 break;
               default:
                 Icon = FaGlobe;
-                backgroundColor = "bg-gray-200";
+                backgroundColor = "bg-gray-300";
+                break;
             }
 
+            // Agar nom mavjud bo'lsa, uni ko'rsatamiz; aks holda faqat ikonani
             return (
-              <div
-                className="flex flex-col justify-center items-center"
+              <a
+                href={site.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex items-center p-3 rounded-lg ${backgroundColor} text-white`}
                 key={index}
               >
-                <a
-                  href={href || site.url} // Telefon raqami bo'lsa `tel:` protokoli qo'llanadi, aks holda odatdagi URL
-                  target={href ? "_self" : "_blank"} // Telefon raqami uchun yangi oynada ochmaydi
-                  rel="noopener noreferrer"
-                  className={`flex gap-3 items-center w-full p-4 rounded-lg shadow-md ${backgroundColor} text-white`}
-                >
-                  <Icon className="mr-2 w-10 h-10" />
-                  <span className="font-bold text-lg font-helvetica">
-                    {site.icon === "PhoneNumber" ? site.url : site.icon}
-                  </span>
-                </a>
-              </div>
+                <Icon className="text-xl mr-3" />
+                {site.name ? (
+                  site.name
+                ) : (
+                  <span className="text-xl font-semibold ">{site.icon}</span>
+                )}
+              </a>
             );
           })}
         </div>
       </div>
+
       {userData?.pdf && (
         <div className="mt-2 text-center">
           <a
             href={userData.pdf}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center px-4  bg-[#cf1b0e] text-white rounded-lg shadow-lg transition gap-3 duration-300 w-full p-4 font-bold text-lg font-helvetica"
+            className="inline-flex items-center bg-[#cf1b0e] text-white rounded-lg shadow-lg transition gap-3 duration-300 w-full p-2 text-lg font-helvetica"
           >
-            <FaFilePdf className="mr-2 w-10 h-10" />
-            PDF
+            <FaFilePdf className=" w-4 h-4" />
+            {getFileNameFromUrl(userData.pdf)}
           </a>
         </div>
       )}
@@ -322,18 +330,16 @@ function Preview({ setUsername, t }) {
           <img
             src={qrCodeUrl}
             alt="QR Code"
-            className="w-20 h-20 mx-auto border-2 border-gray-800 rounded-lg"
+            className="w-16 h-16 mx-auto border-2 border-gray-800 rounded-lg"
           />
           <div className="flex gap-3 mt-5 justify-center items-center">
-            <div className="">
-              <a
-                href={qrCodeUrl}
-                download={`qr_code_${username}.png`}
-                className="text-white bg-blue-500 hover:bg-blue-700 px-4 py-2   rounded-lg"
-              >
-                {t.qrCode}
-              </a>
-            </div>
+            <a
+              href={qrCodeUrl}
+              download={`qr_code_${username}.png`}
+              className="text-white bg-blue-500 hover:bg-blue-700 px-2 py-2 rounded-lg"
+            >
+              {t.qrCode}
+            </a>
           </div>
         </div>
       )}

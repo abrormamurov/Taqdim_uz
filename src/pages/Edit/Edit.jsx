@@ -150,7 +150,17 @@ function Edit({ t }) {
         formDataToSend.append("pdf", pdf);
       }
 
-      formDataToSend.append("sites", JSON.stringify(urls));
+      // Add URLs as JSON string
+      formDataToSend.append(
+        "sites",
+        JSON.stringify(
+          urls.map((url) => ({
+            name: url.name,
+            url: url.url,
+            icon: url.icon,
+          }))
+        )
+      );
 
       // Send request
       const response = await Profile.updateProfile(formDataToSend, username);
@@ -298,7 +308,7 @@ function Edit({ t }) {
                 placeholder="Nom"
                 value={url.name}
                 onChange={(e) => handleLinkChange(index, e)}
-                className="w-1/2 p-2 border mb-2 mt-2 rounded-md border-gray-300 "
+                className="w-full p-2 border mb-2 mt-2 rounded-md border-gray-300 "
               />
               <input
                 type="text"
@@ -306,7 +316,7 @@ function Edit({ t }) {
                 placeholder="URL"
                 value={url.url}
                 onChange={(e) => handleLinkChange(index, e)}
-                className="w-1/2 p-2 border  rounded-md border-gray-300 "
+                className=" p-2 border w-full  rounded-md border-gray-300 "
               />
               <div className="flex justify-between mt-2">
                 <IconSelector type={url.icon} />
