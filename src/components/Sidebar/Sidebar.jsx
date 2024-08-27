@@ -60,7 +60,7 @@ function Sidebar({ sidebarOpen, t }) {
                       <li>
                         <label>
                           <i className="bx bx-user-1"></i>
-                          <span className="text">{account.username}</span>
+                          <span className="text">{account.username} </span>
                         </label>
                       </li>
                     </NavLink>

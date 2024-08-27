@@ -32,7 +32,12 @@ function UserPreview({ setUsername, t }) {
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
   const [qrCodeUrl, setQrCodeUrl] = useState(null); // QR kod URL holati
-
+  const getFileNameFromUrl = (url) => {
+    // URL'dan fayl nomini ajratib olish
+    const fileName = url.substring(url.lastIndexOf("/") + 1);
+    // .pdf kengaytmasini olib tashlash
+    return fileName.replace(".pdf", "");
+  };
   const handleCopy = () => {
     navigator.clipboard
       .writeText(`https://taqdim.uz/${username}`)
@@ -112,43 +117,45 @@ function UserPreview({ setUsername, t }) {
             />
           ) : (
             <div className="w-40 h-40 bg-gray-300 rounded-full flex items-center justify-center text-gray-700">
-              {t.NoImaage}
+              {t.NoImage}
             </div>
           )}
         </div>
         <div className="text-center md:text-left md:ml-6">
           <h1 className="text-3xl font-bold text-gray-800">
-            {userData?.full_name}
+            {userData?.username}
           </h1>
-          <p className="text-xl text-blue-600 flex items-center justify-center md:justify-start mt-2">
-            <IoLocationSharp className=" mr-2" size={26} />
-            {userData?.location}
-          </p>
           <a
             className="text-xl text-blue-600 hover:underline flex items-center justify-center md:justify-start mt-2"
             href={`tel:${userData?.telephone}`}
           >
-            <BsFillTelephoneOutboundFill className="mr-2 " />{" "}
+            <BsFillTelephoneOutboundFill className="mr-2" />
             {userData?.telephone}
           </a>
-          <p className="text-lg  mt-2">{userData?.about}</p>
+          <p className="text-lg mt-2">{userData?.about}</p>
         </div>
       </div>
       <div className="mt-5 text-center flex justify-center items-center">
         <div className="flex h-10 pr-0 border-2 border-[#dedeff] rounded-3xl items-center justify-between w-96 p-4">
-          <span className="text-gray-700">
+          <span className="text-gray-700 block">
             <a
               href={`https://taqdim.uz/${username}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:underline"
+              className="flex items-center space-x-2 overflow-hidden"
             >
-              <code> https://taqdim.uz</code> /{username}
+              <code
+                className="flex-shrink-0 w-full text-ellipsis"
+                style={{ minWidth: "0" }}
+              >
+                https://taqdim.uz/{username}
+              </code>
             </a>
           </span>
+
           <button
             onClick={handleCopy}
-            className="ml-3  m-0 hover:text-gray-800 border text-center border-blue-500 rounded-3xl px-6 py-0"
+            className="ml-3 m-0 hover:text-gray-800 border text-center border-blue-500 rounded-3xl px-6 py-0"
             aria-label="Copy URL"
           >
             <FaCopy size={20} />
@@ -161,7 +168,9 @@ function UserPreview({ setUsername, t }) {
           {userData?.sites?.map((site, index) => {
             let Icon;
             let backgroundColor;
+            let href;
 
+            // Ikonani va fon rangini aniqlash
             switch (site.icon) {
               case "Instagram":
                 Icon = FaInstagram;
@@ -185,7 +194,7 @@ function UserPreview({ setUsername, t }) {
                 break;
               case "GitHub":
                 Icon = FaGithub;
-                backgroundColor = "bg-gray-800"; // GitHub uchun mos rang
+                backgroundColor = "bg-gray-800";
                 break;
               case "YouTube":
                 Icon = BsYoutube;
@@ -231,46 +240,51 @@ function UserPreview({ setUsername, t }) {
                 Icon = FaViber;
                 backgroundColor = "bg-purple-500";
                 break;
-              case "PhoneNumber":
+              case "Phone":
                 Icon = BsFillTelephoneForwardFill;
                 backgroundColor = "bg-green-500";
                 break;
+              case "Website":
+                Icon = FaGlobe;
+                backgroundColor = "bg-gray-600";
+                break;
               default:
                 Icon = FaGlobe;
-                backgroundColor = "bg-gray-200";
+                backgroundColor = "bg-gray-300";
+                break;
             }
 
+            // Agar nom mavjud bo'lsa, uni ko'rsatamiz; aks holda faqat ikonani
             return (
-              <div
-                className="flex flex-col justify-center items-center"
+              <a
+                href={site.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex items-center p-3 rounded-lg ${backgroundColor} text-white`}
                 key={index}
               >
-                <a
-                  href={site.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`flex gap-3 items-center w-full p-4 rounded-lg shadow-md ${backgroundColor} text-white`}
-                >
-                  <Icon className="mr-2 w-10 h-10" />
-                  <span className="font-bold text-lg font-helvetica">
-                    {site.icon}
-                  </span>
-                </a>
-              </div>
+                <Icon className="text-xl mr-3" />
+                {site.name ? (
+                  site.name
+                ) : (
+                  <span className="text-xl font-semibold ">{site.icon}</span>
+                )}
+              </a>
             );
           })}
         </div>
       </div>
+
       {userData?.pdf && (
         <div className="mt-2 text-center">
           <a
             href={userData.pdf}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center px-4  bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600 transition gap-3 duration-300 w-full p-4 font-bold text-lg font-helvetica"
+            className="inline-flex items-center bg-[#cf1b0e] text-white rounded-lg shadow-lg transition gap-3 duration-300 w-full p-2 text-lg font-helvetica font-medium "
           >
-            <FaFilePdf className="mr-2 w-10 h-10" />
-            PDF
+            <FaFilePdf className="w-6 h-6 pl-2" />
+            {getFileNameFromUrl(userData.pdf)}
           </a>
         </div>
       )}
@@ -280,18 +294,16 @@ function UserPreview({ setUsername, t }) {
           <img
             src={qrCodeUrl}
             alt="QR Code"
-            className="w-20 h-20 mx-auto border-2 border-gray-800 rounded-lg"
+            className="w-16 h-16 mx-auto border-2 border-gray-800 rounded-lg"
           />
           <div className="flex gap-3 mt-5 justify-center items-center">
-            <div className="">
-              <a
-                href={qrCodeUrl}
-                download={`qr_code_${username}.png`}
-                className="text-white bg-blue-500 hover:bg-blue-700 px-4 py-2   rounded-lg"
-              >
-                {t.qrCode}
-              </a>
-            </div>
+            <a
+              href={qrCodeUrl}
+              download={`qr_code_${username}.png`}
+              className="text-white bg-blue-500 hover:bg-blue-700 px-2 py-2 rounded-lg"
+            >
+              {t.qrCode}
+            </a>
           </div>
         </div>
       )}

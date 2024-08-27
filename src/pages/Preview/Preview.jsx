@@ -184,9 +184,14 @@ function Preview({ setUsername, t }) {
               href={`https://taqdim.uz/${username}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:underline"
+              className="flex items-center space-x-2 overflow-hidden"
             >
-              <code> https://taqdim.uz</code> /{username}
+              <code
+                className="flex-shrink-0 w-full text-ellipsis"
+                style={{ minWidth: "0" }}
+              >
+                https://taqdim.uz/{username}
+              </code>
             </a>
           </span>
           <button
@@ -317,9 +322,9 @@ function Preview({ setUsername, t }) {
             href={userData.pdf}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center bg-[#cf1b0e] text-white rounded-lg shadow-lg transition gap-3 duration-300 w-full p-2 text-lg font-helvetica"
+            className="inline-flex items-center bg-[#cf1b0e] text-white rounded-lg shadow-lg transition gap-3 duration-300 w-full p-2 text-lg font-helvetica font-medium "
           >
-            <FaFilePdf className=" w-4 h-4" />
+            <FaFilePdf className="w-6 h-6 pl-2" />
             {getFileNameFromUrl(userData.pdf)}
           </a>
         </div>

@@ -16,15 +16,15 @@ function Home({ t, language, setLanguage }) {
   return (
     <div className="container mx-auto px-4 md:px-12">
       <nav className="flex justify-between items-center mb-8">
-        <div className="flex items-center">
+        <div className="flex items-center mt-6">
           <h2 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-600">
             TAQDIM.UZ
           </h2>
         </div>
 
-        <div className="hidden md:flex gap-6 items-center">
+        <div className="hidden md:flex gap-6  items-center">
           <TranslationSwitcher
-            className="mb-6"
+            className="mb-6 mt-6"
             language={language}
             setLanguage={setLanguage}
           />
@@ -39,14 +39,14 @@ function Home({ t, language, setLanguage }) {
             </button>
           </Link>
         </div>
-        <div className="md:hidden">
+        <div className="md:hidden mt-[27px]">
           <HiMenu className="text-3xl cursor-pointer" onClick={toggleMenu} />
         </div>
       </nav>
 
       <div
-        className={`flex flex-col items-center mt-4 md:hidden transition-transform duration-300 ${
-          isMenuOpen ? "max-h-screen" : "max-h-0 overflow-hidden"
+        className={`flex flex-col items-center   md:hidden mt-[27px] transition-transform duration-300 ${
+          isMenuOpen ? "max-h-screen" : "max-h-0 overflow-hidden "
         }`}
       >
         <div className="flex justify-center  gap-4 ">

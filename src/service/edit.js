@@ -17,6 +17,21 @@ const Profile = {
       throw error.response || new Error("Unknown error");
     }
   },
+  // Profile.js
+  async deleteProfile(username) {
+    try {
+      const response = await api.delete(`/profile/${username}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting profile:", error.response || error.message);
+      throw error;
+    }
+  },
+
   async getProfile(username) {
     try {
       const response = await api.get(`/profile/list/${username}`, {

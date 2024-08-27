@@ -4,6 +4,8 @@ import React, { createContext, useContext, useState } from "react";
 // Tarjima matnlari uchun ob'ekt
 const translations = {
   uz: {
+    deleteP: "Hisobingizni rostanam o'chirmoqchimisiz?",
+    deleteacc: "Profilni ochirish",
     passwordResetSuccess: "Parol o'zgartirildi!",
     verificationCode1: "Emailingizga yuborildi",
     verificationCode: "Tasdiqlash kodi",
@@ -57,7 +59,7 @@ const translations = {
     delete: "O'chirish",
     addlink: "Havola Qo'shish",
     save: "Saqlash",
-    createaccount: "Hisob yaratish",
+    createaccount: "Profil yaratish",
     logout: "Chiqish",
     createerror: "Xato: bunday foydalanuvchi nomi mavjud",
     profileimage: "Profil Rasmi",
@@ -66,6 +68,8 @@ const translations = {
       "Autentifikatsiya ma'lumotlari taqdim etilmagan.",
   },
   en: {
+    deleteacc: "Delete profile",
+    deleteP: "Hisobingizni rostanam o'chirmoqchimisiz?",
     passwordResetSuccess: "Password changed!",
     verificationCode1: "Sent to your email",
     verificationCode: "Confirmation code",
@@ -127,6 +131,8 @@ const translations = {
     save: "save",
   },
   ru: {
+    deleteacc: "Удалить профиль",
+    deleteP: "Вы действительно хотите удалить свою учетную запись?",
     passwordResetSuccess: "Пароль изменен!",
 
     verificationCode1: "Отправлено на вашу электронную почту",

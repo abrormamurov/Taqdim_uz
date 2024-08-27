@@ -3,7 +3,34 @@ import { useNavigate, useParams } from "react-router-dom";
 import Profile from "../../service/edit";
 import IconSelector from "../../components/IconMap/IconSelector";
 import "./Edit.css";
+import axios from "axios";
+import useToken from "antd/es/theme/useToken";
+function ConfirmationModal({ isVisible, onClose, onConfirm, t }) {
+  if (!isVisible) return null;
 
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+        <h2 className="text-lg font-semibold mb-4">Eslatma</h2>
+        <p className="mb-4">{t.deleteP}</p>
+        <div className="flex justify-between">
+          <button
+            onClick={onConfirm}
+            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+          >
+            Ha
+          </button>
+          <button
+            onClick={onClose}
+            className="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400"
+          >
+            Yo'q
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 function Edit({ t }) {
   const [formData, setFormData] = useState({
     username: "",
@@ -12,10 +39,13 @@ function Edit({ t }) {
     location: "",
     about: "",
     profile_image: null,
+    pdf: null,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [urls, setUrls] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [accounts, setAccounts] = useState([]);
 
   const navigate = useNavigate();
   const { username } = useParams();
@@ -183,6 +213,53 @@ function Edit({ t }) {
     }
   };
 
+  const handleDeleteAccount = () => {
+    setIsModalVisible(true);
+  };
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      try {
+        const accountsData = await Profile.getAccounts(); // Foydalanuvchi ro'yxatini olish
+        setAccounts(accountsData);
+      } catch (error) {
+        console.error("Foydalanuvchi ro'yxatini olishda xatolik:", error);
+        setError("Foydalanuvchi ro'yxatini olishda xatolik: " + error.message);
+      }
+    };
+
+    fetchAccounts();
+  }, []);
+
+  const handleConfirmDelete = async () => {
+    try {
+      console.log("Deleting profile:", username);
+      await Profile.deleteProfile(username);
+
+      console.log("Profile deleted. Refreshing token...");
+      await Profile.refreshToken();
+
+      console.log("Token refreshed. Fetching updated accounts...");
+      const updatedProfile = await Profile.getProfile(username);
+
+      if (updatedProfile.length > 0) {
+        navigate(`/preview/${updatedProfile[0].username}`);
+      } else {
+        navigate.location.reload();
+        console.log("No accounts found. Navigating to default page...");
+        navigate("/create");
+      }
+    } catch (error) {
+      console.error("Hisobni o'chirishda xatolik:", error);
+      setError("Hisobni o'chirishda xatolik: " + error.message);
+    } finally {
+      setIsModalVisible(false);
+      window.location.reload();
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setIsModalVisible(false);
+  };
   return (
     <div className="edit-container max-w-sm mx-auto p-4">
       {loading && <p className="">{t.loading}</p>}
@@ -292,6 +369,7 @@ function Edit({ t }) {
                 name="pdf"
                 className="w-full p-2 border rounded-md border-gray-300"
                 accept=".pdf"
+                defaultvalue={formData.pdf}
                 onChange={handlePdfChange}
               />
             </div>
@@ -347,7 +425,20 @@ function Edit({ t }) {
         >
           {t.save}
         </button>
+        <button
+          type="button"
+          onClick={handleDeleteAccount}
+          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
+        >
+          {t.deleteacc}
+        </button>
       </form>
+      <ConfirmationModal
+        isVisible={isModalVisible}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        t={t}
+      />
     </div>
   );
 }
