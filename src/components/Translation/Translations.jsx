@@ -227,9 +227,9 @@ const TranslationSwitcher = ({ language, setLanguage }) => {
 
       {/* Language Menu for Mobile */}
       {menuOpen && (
-        <div className="absolute right-0 mt-20 flex flex-col shadow-lg rounded-md md:hidden bg-white">
+        <div className="absolute bg-none right-0 mt-20 flex flex-col  rounded-md md:hidden ">
           <button
-            className="px-4 py-2 text-gray-700 hover:bg-gray-200"
+            className="px-4 py-2 text-white hover:bg-gray-200"
             onClick={() => {
               setLanguage("uz");
               setMenuOpen(false);
@@ -238,7 +238,7 @@ const TranslationSwitcher = ({ language, setLanguage }) => {
             Uzb
           </button>
           <button
-            className="px-4 py-2 text-gray-700 hover:bg-gray-200"
+            className="px-4 py-2 text-white hover:bg-gray-200"
             onClick={() => {
               setLanguage("en");
               setMenuOpen(false);
@@ -247,7 +247,7 @@ const TranslationSwitcher = ({ language, setLanguage }) => {
             Eng
           </button>
           <button
-            className="px-4 py-2 text-gray-700 hover:bg-gray-200"
+            className="px-4 py-2 text-white hover:bg-gray-200"
             onClick={() => {
               setLanguage("ru");
               setMenuOpen(false);

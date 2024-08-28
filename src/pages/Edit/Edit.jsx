@@ -90,20 +90,54 @@ function Edit({ t }) {
       [name]: value,
     }));
   };
+  const [imagePreview, setImagePreview] = useState(null);
 
-  const handleImageChange = (e) => {
+  useEffect(() => {
+    // API dan rasm URL olish
+    const fetchProfileImage = async () => {
+      try {
+        const response = await axios.get(
+          `https://api.taqdim.uz/profile/list/${username}`
+        );
+        // API dan olingan rasm URL'ni saqlang
+        setFormData({
+          profile_image: response.data.imageUrl, // API dan olingan rasm URL ni saqlash
+        });
+      } catch (error) {
+        console.error("Error fetching profile image:", error);
+      }
+    };
+
+    fetchProfileImage();
+  }, [username]);
+  const handleChange1 = (e) => {
     const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      profile_image: file,
-    }));
+    if (file) {
+      // Yangi rasm yuklanganda preview yarating
+      setImagePreview(URL.createObjectURL(file));
+      // FormData ga yangi rasmni saqlang yoki serverga yuboring
+      setFormData((prevState) => ({
+        ...prevState,
+        profile_image: file, // Bu yerda faylni saqlang yoki serverga yuboring
+      }));
+    }
   };
+
   const handlePdfChange = (e) => {
     const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      pdf: file,
-    }));
+    const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20 MB limit
+
+    if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        alert("File size exceeds the 20 MB limit.");
+        return;
+      }
+
+      setFormData((prevData) => ({
+        ...prevData,
+        pdf: file,
+      }));
+    }
   };
 
   const handleLinkChange = (index, e) => {
@@ -167,16 +201,16 @@ function Edit({ t }) {
         formDataToSend.append(key, formDataWithoutQrCode[key]);
       }
 
-      if (profile_image) {
-        formDataToSend.append("profile_image", profile_image);
+      if (formData.profile_image) {
+        formDataToSend.append("profile_image", formData.profile_image);
       }
 
       if (pdf !== null) {
         // Fayl o'lchamini tekshirish
-        if (pdf && pdf.size > 5 * 1024 * 1024) {
-          // 5MB cheklov
+        if (pdf && pdf.size > 20 * 1024 * 1024) {
           throw new Error("PDF fayli juda katta");
         }
+
         formDataToSend.append("pdf", pdf);
       }
 
@@ -217,15 +251,7 @@ function Edit({ t }) {
     setIsModalVisible(true);
   };
   useEffect(() => {
-    const fetchAccounts = async () => {
-      try {
-        const accountsData = await Profile.getAccounts(); // Foydalanuvchi ro'yxatini olish
-        setAccounts(accountsData);
-      } catch (error) {
-        console.error("Foydalanuvchi ro'yxatini olishda xatolik:", error);
-        setError("Foydalanuvchi ro'yxatini olishda xatolik: " + error.message);
-      }
-    };
+    const fetchAccounts = async () => {};
 
     fetchAccounts();
   }, []);
@@ -262,34 +288,40 @@ function Edit({ t }) {
   };
   return (
     <div className="edit-container max-w-sm mx-auto p-4">
-      {loading && <p className="">{t.loading}</p>}
-      {error && <p className="text-red-600">Xato: PDF ni yuklang </p>}
       <form
         className="edit-form  flex flex-col gap-6"
         onSubmit={handleSubmit}
         encType="multipart/form-data"
       >
         <div className="flex items-center ">
-          <div className="relative  rounded-full w-44 h-44 overflow-hidden bg-slate-200 flex items-center justify-center transition-transform duration-300 ease-in-out hover:scale-110 hover:bg-slate-300 hover:border-4 hover:border-blue-500 mb-5 md:mb-0">
-            {formData.profile_image ? (
-              <img
-                src={formData.profile_image}
-                alt="Profil oldindan ko'rsatish"
-                className="object-cover w-full h-full rounded-full"
-              />
-            ) : (
-              <div className="default-image w-full h-full flex items-center justify-center pl-6 text-gray-500">
-                {t.NoImage}
+          <div className="relative rounded-full w-44 h-44 overflow-hidden bg-slate-200 flex items-center justify-center transition-transform duration-300 ease-in-out hover:scale-110 hover:bg-slate-300 hover:border-4 hover:border-blue-500 mb-5 md:mb-0">
+            <div className="relative rounded-full w-44 h-44 overflow-hidden bg-slate-200 flex items-center justify-center transition-transform duration-300 ease-in-out hover:scale-110 hover:bg-slate-300 hover:border-4 hover:border-blue-500 mb-5 md:mb-0">
+              <div className="relative rounded-full w-44 h-44 overflow-hidden bg-slate-200 flex items-center justify-center transition-transform duration-300 ease-in-out hover:scale-110 hover:bg-slate-300 hover:border-4 hover:border-blue-500 mb-5 md:mb-0">
+                {imagePreview || formData.profile_image ? (
+                  <img
+                    src={
+                      imagePreview ||
+                      URL.createObjectURL(formData.profile_image)
+                    } // Preview yoki eski rasm URL
+                    alt="Profile Preview"
+                    className="w-32 h-32 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-32 h-32 rounded-full border border-gray-300 flex items-center justify-center pl-4 text-gray-500">
+                    <span>{t.NoImage}</span> {/* Default rasm haqida matn */}
+                  </div>
+                )}
+
+                <input
+                  type="file"
+                  id="profile_image"
+                  name="profile_image"
+                  accept="image/*"
+                  onChange={handleChange1}
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                />
               </div>
-            )}
-            <input
-              type="file"
-              id="profile_image"
-              name="profile_image"
-              className="absolute inset-0 opacity-0 cursor-pointer"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
+            </div>
           </div>
         </div>
         <div className="flex flex-col md:flex-row gap-5">
@@ -419,19 +451,22 @@ function Edit({ t }) {
           </div>
         </div>
 
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
-        >
-          {t.save}
-        </button>
-        <button
-          type="button"
-          onClick={handleDeleteAccount}
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
-        >
-          {t.deleteacc}
-        </button>
+        <div className="flex justify-between">
+          {" "}
+          <button
+            type="button"
+            onClick={handleDeleteAccount}
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
+          >
+            {t.deleteacc}
+          </button>
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+          >
+            {t.save}
+          </button>
+        </div>
       </form>
       <ConfirmationModal
         isVisible={isModalVisible}
